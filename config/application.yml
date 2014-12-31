@@ -1,2 +1,2 @@
 mumuki_url: http://mumuki.herokuapp.com
-swipl_path: /app/.heroku/vendor/bin/swipl
+test_runner_command: /app/.heroku/vendor/bin/swipl

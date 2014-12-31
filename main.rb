@@ -5,15 +5,15 @@ require_relative './lib/plunit'
 
 config = YAML.load_file('config/application.yml')
 
+compiler = Plunit::TestCompiler.new
+runner = Plunit::TestRunner.new(config['test_runner_command'])
+
 post '/test' do
   compilation = JSON.parse request.body.read
   test = compilation['test']
   content = compilation['content']
 
-  compiler = Plunit::TestCompiler.new
   file = compiler.create_compilation_file!(test, content)
-
-  runner = Plunit::TestRunner.new(config['swipl_path'])
   results = runner.run_test_file!(file)
 
   file.unlink
