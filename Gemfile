@@ -5,5 +5,5 @@ gem 'rake'
 gem 'sinatra'
 
 group :test do
-  gem 'rspec-core'
+  gem 'rspec', '2.13'
 end

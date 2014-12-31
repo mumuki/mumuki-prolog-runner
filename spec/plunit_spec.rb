@@ -30,6 +30,13 @@ describe TestCompiler do
       it { expect(results).to eq(['....', :passed]) }
     end
   end
+
+  describe '#create_compilation_file!' do
+    let(:compiler) { Plunit::TestCompiler.new }
+    let(:file) { compiler.create_compilation_file!('bar.', 'foo.') }
+
+    it { expect(File.exists? file.path).to be true }
+  end
 end
 
 describe TestRunner do

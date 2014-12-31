@@ -1,3 +1,5 @@
+require 'tempfile'
+
 module Mumuki::FileTestCompiler
 
   def create_compilation_file!(test, content)
