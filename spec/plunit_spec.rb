@@ -1,8 +1,10 @@
 require 'ostruct'
 require_relative '../lib/plunit'
 
-describe PlunitCompiler do
-  let(:runner) { PLUnitRunner.new('swipl') }
+include Plunit
+
+describe TestCompiler do
+  let(:runner) { TestRunner.new('swipl') }
   let(:file) { OpenStruct.new(path: '/tmp/foo.pl') }
 
   describe '#run_test_command' do
@@ -30,7 +32,7 @@ describe PlunitCompiler do
   end
 end
 
-describe PLUnitRunner do
+describe TestRunner do
   true_test = <<EOT
 test(the_truth) :-
   assertion(true == true).
@@ -46,7 +48,7 @@ test(the_truth) :-
 EOT
 
   describe '#compile' do
-    let(:compiler) { PlunitCompiler.new }
+    let(:compiler) { TestCompiler.new }
     it { expect(compiler.compile(true_test, '')).to eq(compiled_test_submission) }
   end
 

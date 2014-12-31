@@ -1,5 +1,5 @@
-class PLUnitRunner
-  include CommandLineRunner
+class Plunit::TestRunner
+  include Mumuki::CommandLineTestRunner
 
   attr_accessor :swipl_path
 

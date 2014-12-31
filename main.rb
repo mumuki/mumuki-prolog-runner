@@ -5,20 +5,20 @@ require_relative './lib/plunit'
 
 config = YAML.load_file('config/application.yml')
 
-def create_compilation_file!(compilation)
-  file = Tempfile.new("mumuki.#{id}.compile")
-  file.write(compilation)
-  file.close
-  file
-end
-
 post '/test' do
   compilation = JSON.parse request.body.read
-  runner = PLUnitRunner.new(config['swipl_path'])
-  file = create_compilation_file!(compilation)
+  test = compilation['test']
+  content = compilation['content']
+
+  compiler = Plunit::TestCompiler.new
+  file = compiler.create_compilation_file!(test, content)
+
+  runner = Plunit::TestRunner.new(config['swipl_path'])
   results = runner.run_test_file!(file)
+
   file.unlink
-  JSON.generate(results)
+
+  JSON.generate(exit: results[0], out: results[1])
 end
 
 get '/*' do

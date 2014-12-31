@@ -1,3 +1,7 @@
-require_relative './plunit/command_line_runner'
-require_relative './plunit/plunit_runner'
-require_relative './plunit/plunit_compiler'
+module Plunit
+end
+
+require_relative 'mumuki'
+
+require_relative './plunit/test_runner'
+require_relative './plunit/test_compiler'
