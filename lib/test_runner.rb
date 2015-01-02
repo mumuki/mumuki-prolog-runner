@@ -1,7 +1,7 @@
-require_relative 'mumuki'
+require_relative 'mumukit'
 
 class TestRunner
-  include Mumuki::CommandLineTestRunner
+  include Mumukit::CommandLineTestRunner
 
   attr_accessor :swipl_path
 

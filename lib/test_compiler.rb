@@ -1,7 +1,7 @@
-require_relative 'mumuki'
+require_relative 'mumukit'
 
 class TestCompiler
-  include Mumuki::FileTestCompiler
+  include Mumukit::FileTestCompiler
 
   def compile(test_src, content_src)
     <<EOF
