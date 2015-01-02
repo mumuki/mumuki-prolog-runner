@@ -1,4 +1,6 @@
-class Plunit::TestCompiler
+require_relative 'mumuki'
+
+class TestCompiler
   include Mumuki::FileTestCompiler
 
   def compile(test_src, content_src)

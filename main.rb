@@ -1,12 +1,14 @@
 require 'sinatra'
 require 'yaml'
 require 'json'
-require_relative './lib/plunit'
+
+require_relative './lib/test_compiler'
+require_relative './lib/test_runner'
 
 config = YAML.load_file('config/application.yml')
 
-compiler = Plunit::TestCompiler.new
-runner = Plunit::TestRunner.new(config['test_runner_command'])
+compiler = TestCompiler.new
+runner = TestRunner.new(config['test_runner_command'])
 
 def parse_test_body(request)
   compilation = JSON.parse request.body.read

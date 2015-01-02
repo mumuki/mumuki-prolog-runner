@@ -1,7 +1,5 @@
+require_relative '../lib/test_compiler'
 require 'ostruct'
-require_relative '../lib/plunit'
-
-include Plunit
 
 describe TestCompiler do
   let(:runner) { TestRunner.new('swipl') }
@@ -32,31 +30,9 @@ describe TestCompiler do
   end
 
   describe '#create_compilation_file!' do
-    let(:compiler) { Plunit::TestCompiler.new }
+    let(:compiler) { TestCompiler.new }
     let(:file) { compiler.create_compilation_file!('bar.', 'foo.') }
 
     it { expect(File.exists? file.path).to be true }
   end
-end
-
-describe TestRunner do
-  true_test = <<EOT
-test(the_truth) :-
-  assertion(true == true).
-EOT
-
-  compiled_test_submission = <<EOT
-:- begin_tests(mumuki_submission_test, []).
-test(the_truth) :-
-  assertion(true == true).
-
-
-:- end_tests(mumuki_submission_test).
-EOT
-
-  describe '#compile' do
-    let(:compiler) { TestCompiler.new }
-    it { expect(compiler.compile(true_test, '')).to eq(compiled_test_submission) }
-  end
-
 end

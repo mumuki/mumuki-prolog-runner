@@ -1,4 +1,6 @@
-class Plunit::TestRunner
+require_relative 'mumuki'
+
+class TestRunner
   include Mumuki::CommandLineTestRunner
 
   attr_accessor :swipl_path
