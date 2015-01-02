@@ -5,7 +5,14 @@ require 'json'
 require_relative './lib/test_compiler'
 require_relative './lib/test_runner'
 
-config = YAML.load_file('config/application.yml')
+configure :production do
+  set :config_filename, 'config/development.yml'
+end
+configure :production do
+  set :config_filename, 'config/production.yml'
+end
+
+config = YAML.load_file(settings.config_filename)
 
 compiler = TestCompiler.new
 runner = TestRunner.new(config['test_runner_command'])
