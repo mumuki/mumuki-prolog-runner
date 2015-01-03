@@ -1,2 +1,2 @@
-require './server'
-run TestServerApp
+require 'mumukit'
+run Mumukit::TestServerApp
