@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/flbulgarelli/mumukit.git
+  revision: 9bb5bc38da46ab18dbd8f5f909bd71ba6eee312d
+  branch: master
+  specs:
+    mumukit (0.0.1)
+      sinatra (~> 1.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -24,6 +32,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  mumukit!
   rake
   rspec (= 2.13)
-  sinatra

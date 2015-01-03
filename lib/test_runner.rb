@@ -1,10 +1,8 @@
-class Plunit::TestRunner
-  include Mumuki::CommandLineTestRunner
+require 'mumukit'
 
-  attr_accessor :swipl_path
-
-  def initialize(swipl_path)
-    self.swipl_path = swipl_path
+class TestRunner
+  def swipl_path
+    @config['swipl_command']
   end
 
   def run_test_file!(file)
