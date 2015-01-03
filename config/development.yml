@@ -1,2 +1,1 @@
-mumuki_url: http://mumuki.herokuapp.com
-test_runner_command: swipl
+swipl_command: swipl

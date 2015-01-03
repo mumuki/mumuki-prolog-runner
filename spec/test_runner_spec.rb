@@ -16,7 +16,7 @@ test(the_truth) :-
 EOT
 
   describe '#compile' do
-    let(:compiler) { TestCompiler.new }
+    let(:compiler) { TestCompiler.new(nil) }
     it { expect(compiler.compile(true_test, '')).to eq(compiled_test_submission) }
   end
 

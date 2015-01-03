@@ -3,10 +3,12 @@ require 'mumukit'
 class TestRunner
   include Mumukit::CommandLineTestRunner
 
-  attr_accessor :swipl_path
+  def initialize(config)
+    @config = config
+  end
 
-  def initialize(swipl_path)
-    self.swipl_path = swipl_path
+  def swipl_path
+    @config['swipl_command']
   end
 
   def run_test_file!(file)

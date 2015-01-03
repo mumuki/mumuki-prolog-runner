@@ -5,17 +5,22 @@ require 'json'
 require_relative './lib/test_compiler'
 require_relative './lib/test_runner'
 
-class PlunitApp < Sinatra::Base
-  configure :production do
+class TestServerApp < Sinatra::Base
+  configure do
+    set :mumuki_url, 'http://mumuki.herokuapp.com'
+  end
+
+  configure :development do
     set :config_filename, 'config/development.yml'
   end
+
   configure :production do
     set :config_filename, 'config/production.yml'
   end
 
   config = YAML.load_file(settings.config_filename)
-  compiler = TestCompiler.new
-  runner = TestRunner.new(config['test_runner_command'])
+  compiler = TestCompiler.new(config)
+  runner = TestRunner.new(config)
 
   helpers do
     def parse_test_body(request)
@@ -37,6 +42,6 @@ class PlunitApp < Sinatra::Base
   end
 
   get '/*' do
-    redirect config['mumuki_url']
+    redirect settings.mumuki_url
   end
 end

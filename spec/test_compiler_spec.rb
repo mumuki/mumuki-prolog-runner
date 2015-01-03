@@ -2,7 +2,7 @@ require_relative '../lib/test_compiler'
 require 'ostruct'
 
 describe TestCompiler do
-  let(:runner) { TestRunner.new('swipl') }
+  let(:runner) { TestRunner.new({'swipl_command' => 'swipl'}) }
   let(:file) { OpenStruct.new(path: '/tmp/foo.pl') }
 
   describe '#run_test_command' do
@@ -30,7 +30,7 @@ describe TestCompiler do
   end
 
   describe '#create_compilation_file!' do
-    let(:compiler) { TestCompiler.new }
+    let(:compiler) { TestCompiler.new(nil) }
     let(:file) { compiler.create_compilation_file!('bar.', 'foo.') }
 
     it { expect(File.exists? file.path).to be true }
