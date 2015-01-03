@@ -1,4 +1,4 @@
-require_relative 'mumukit'
+require 'mumukit'
 
 class TestCompiler
   include Mumukit::FileTestCompiler
