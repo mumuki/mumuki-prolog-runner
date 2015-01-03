@@ -1,12 +1,6 @@
 require 'mumukit'
 
 class TestRunner
-  include Mumukit::CommandLineTestRunner
-
-  def initialize(config)
-    @config = config
-  end
-
   def swipl_path
     @config['swipl_command']
   end
