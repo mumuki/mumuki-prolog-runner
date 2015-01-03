@@ -2,31 +2,23 @@ require_relative '../lib/test_compiler'
 require 'ostruct'
 
 describe TestCompiler do
-  let(:runner) { TestRunner.new({'swipl_command' => 'swipl'}) }
-  let(:file) { OpenStruct.new(path: '/tmp/foo.pl') }
+  true_test = <<EOT
+test(the_truth) :-
+  assertion(true == true).
+EOT
 
-  describe '#run_test_command' do
-    it { expect(runner.run_test_command(file)).to include('swipl -f /tmp/foo.pl --quiet -t run_tests') }
-    it { expect(runner.run_test_command(file)).to include('2>&1') }
-  end
+  compiled_test_submission = <<EOT
+:- begin_tests(mumuki_submission_test, []).
+test(the_truth) :-
+  assertion(true == true).
 
-  describe '#validate_compile_errors' do
-    let(:results) { runner.validate_compile_errors(file, *original_results) }
 
-    describe 'fails on test errors' do
-      let(:original_results) { ['Test failed', :failed] }
-      it { expect(results).to eq(original_results) }
-    end
+:- end_tests(mumuki_submission_test).
+EOT
 
-    describe 'fails on compile errors ' do
-      let(:original_results) { ['ERROR: /tmp/foo.pl:3:0: Syntax error: Operator expected', :passed] }
-      it { expect(results).to eq(['ERROR: /tmp/foo.pl:3:0: Syntax error: Operator expected', :failed]) }
-    end
-
-    describe 'passes otherwise' do
-      let(:original_results) { ['....', :passed] }
-      it { expect(results).to eq(['....', :passed]) }
-    end
+  describe '#compile' do
+    let(:compiler) { TestCompiler.new(nil) }
+    it { expect(compiler.compile(true_test, '')).to eq(compiled_test_submission) }
   end
 
   describe '#create_compilation_file!' do
