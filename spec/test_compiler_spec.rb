@@ -13,17 +13,18 @@ test(the_truth) :-
   assertion(true == true).
 
 
+foo(_).
 :- end_tests(mumuki_submission_test).
 EOT
 
   describe '#compile' do
     let(:compiler) { TestCompiler.new(nil) }
-    it { expect(compiler.compile(true_test, '')).to eq(compiled_test_submission) }
+    it { expect(compiler.compile(true_test, 'foo(_).',  '')).to eq(compiled_test_submission) }
   end
 
   describe '#create_compilation_file!' do
     let(:compiler) { TestCompiler.new(nil) }
-    let(:file) { compiler.create_compilation_file!('bar.', 'foo.') }
+    let(:file) { compiler.create_compilation_file!('bar.', 'extra', 'foo.') }
 
     it { expect(File.exists? file.path).to be true }
   end
