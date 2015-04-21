@@ -1,9 +1,16 @@
 GIT
-  remote: git://github.com/uqbar-project/mumukit.git
-  revision: 716c512b2b8c44a3ca207891f2f427bd5bf5f076
-  tag: v0.0.2
+  remote: git://github.com/uqbar-project/mumukit-inspection.git
+  revision: 7c29d27aaaa52b021a9d6c7ad0e9c7b4b39fa205
+  branch: master
   specs:
-    mumukit (0.0.2)
+    mumukit-inspection (0.0.1)
+
+GIT
+  remote: git://github.com/uqbar-project/mumukit.git
+  revision: ad8cd824f6fb8797a2f9ee88827ee3f125930705
+  branch: master
+  specs:
+    mumukit (0.1.0)
       sinatra (~> 1.4)
 
 GEM
@@ -33,5 +40,6 @@ PLATFORMS
 
 DEPENDENCIES
   mumukit!
+  mumukit-inspection!
   rake
   rspec (= 2.13)
