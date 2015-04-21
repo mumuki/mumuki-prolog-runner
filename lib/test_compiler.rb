@@ -1,5 +1,3 @@
-require 'mumukit'
-
 class TestCompiler
   def compile(test_src, extra_src, content_src)
     <<EOF
