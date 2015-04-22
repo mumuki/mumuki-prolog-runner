@@ -11,7 +11,18 @@ describe ExpectationsRunner do
     [{'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
   }
 
-  it { expect(ExpectationsRunner.expectations_to_terms(expectations)).to eq "[expectation('foo',inspection('HasBinding'))]" }
-  it { expect(ExpectationsRunner.expectations_to_terms(expectations_with_not)).to eq "[expectation('bar',not(inspection('HasBinding')))]" }
-  it { expect(ExpectationsRunner.expectations_to_terms(expectations_with_usage)).to eq "[expectation('foo',inspection('HasUsage','bar'))]" }
+  let(:runner) { ExpectationsRunner.new(nil) }
+
+  it { expect(runner.expectations_to_terms(expectations)).to eq "[expectation('foo',inspection('HasBinding'))]" }
+  it { expect(runner.expectations_to_terms(expectations_with_not)).to eq "[expectation('bar',not(inspection('HasBinding')))]" }
+  it { expect(runner.expectations_to_terms(expectations_with_usage)).to eq "[expectation('foo',inspection('HasUsage','bar'))]" }
+
+  it { expect(runner.run_expectations!(expectations, 'foo(2).')).to eq(
+      'expectationResults' => [
+          { 'expectation' => expectations[0],'result' => true }]) }
+
+  it { expect(runner.run_expectations!(expectations, 'bar(2).')).to eq(
+      'expectationResults' => [
+          { 'expectation' => expectations[0], 'result' => false }]) }
+
 end

@@ -24,14 +24,24 @@ end
 class ExpectationsRunner
   include Mumukit
 
+  def run_expectations!(expectations, content)
+    terms = expectations_to_terms(expectations)
 
-  def self.expectations_to_terms(expectations)
+    file = Tempfile.new('mumuki.expectations')
+    file.write(content)
+    file.close
+
+    command = "echo \"'#{file.path}'. #{terms}.\" | expectations/main.pl"
+    JSON.parse %x{#{command}}
+  end
+
+  def expectations_to_terms(expectations)
     '[' + expectations.map do |e|
       "expectation('#{e['binding']}',#{inspection_to_term(e['inspection'])})"
     end.join('') + ']'
   end
 
-  def self.inspection_to_term(s)
+  def inspection_to_term(s)
     Inspection.parse(s).to_term
   end
 end
