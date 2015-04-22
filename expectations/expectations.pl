@@ -16,6 +16,7 @@ isOrContains(ClauseElement, Predicate):- predToHead(Predicate, ClauseElement).
 isOrContains(ClauseElement, Predicate):-
 	ClauseElement =.. [_|Args],
 	member(Arg, Args),
+	not(var(Arg)),
 	isOrContains(Arg, Predicate).
 
 %%	This would require a parametrized expectation
@@ -47,6 +48,12 @@ complex_pred(_):- forall((between(1,5,X), A is X + 2), not(A = 2)).
 
 test(negating_pred_has_not, nondet):-
 	hasNot(pred(negating_pred,1)).
+	
+test(negating_pred_doesn_use_findall, [fail]):-
+	hasFindall(pred(negating_pred,1)).
+	
+test(negating_pred_doesn_use_forall, [fail]):-
+	hasForall(pred(negating_pred,1)).
 
 test(negating_pred_uses_greater, nondet):-
 	usesPredicate(pred(negating_pred,1), pred((>),2)).
