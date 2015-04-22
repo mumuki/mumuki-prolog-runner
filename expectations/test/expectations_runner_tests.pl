@@ -24,8 +24,8 @@ test(detects_negative_expectations):-
 
 test(detects_targeted_expectations_when_present):-
   run_expectations(
-    [expectation(comparing_pred, inspection('HasUsage', '>'))],
-    [result(expectation(comparing_pred, inspection('HasUsage', '>')), true)]).
+    [expectation(negating_pred, inspection('HasUsage', between))],
+    [result(expectation(negating_pred, inspection('HasUsage', between)), true)]).
 
 
 test(does_not_detect_targeted_expectations_when_absent):-

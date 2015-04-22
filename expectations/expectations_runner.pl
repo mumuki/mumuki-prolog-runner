@@ -10,16 +10,16 @@ eval_expectation(expectation(Binding, Inspection), true) :-
 eval_expectation(_, false).
 
 call_expectation(Binding, inspection('HasBinding')) :-
-  usesPredicate(Binding, _).
+  usesPredicate(pred(Binding, _), _).
 call_expectation(Binding, inspection('HasForall')) :-
-  hasForall(Binding).
+  hasForall(pred(Binding, _)).
 call_expectation(Binding, inspection('HasFindall')) :-
-  hasFindall(Binding).
+  hasFindall(pred(Binding, _)).
 call_expectation(Binding, inspection('HasNot')) :-
-  hasNot(Binding).
+  hasNot(pred(Binding, _)).
 call_expectation(Binding, inspection('HasUsage', Other)) :-
-   usesPredicate(Binding, Other).
+   usesPredicate(pred(Binding, _), Other).
 call_expectation(Binding, inspection('HasArity', Arity)) :-
-   hasArity(Binding, Arity).
+  usesPredicate(pred(Binding, Arity), _).
 call_expectation(Binding, not(Inspection)) :-
    \+ call_expectation(Binding, Inspection).

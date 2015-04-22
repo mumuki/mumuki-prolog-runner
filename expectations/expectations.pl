@@ -1,4 +1,7 @@
-predToHead(pred(PredicateName, Arity), Head) :- functor(Head, PredicateName, Arity).
+predToHead(pred(PredicateName, Arity), Head) :-
+  between(0, 9, Arity),
+  functor(Head, PredicateName, Arity).
+
 clauseElements(Predicate, Elements):-
 	predToHead(Predicate, Head),
 	clause(Head, Clause),
