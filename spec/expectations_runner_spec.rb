@@ -25,10 +25,12 @@ describe ExpectationsRunner do
       'expectationResults' => [
           { 'expectation' => expectations[0], 'result' => false }]) }
 
-  it 'Prolog tests pass' do
-    out = %x{swipl -f expectations/*_tests.pl --quiet -t run_tests 2>&1}
-    puts out
-    expect($?.success?).to be true
+  Dir['expectations/test/*_tests.pl'].each do |test|
+    it "Prolog test #{test} pass" do
+      out = %x{swipl -f #{test} --quiet -t run_tests 2>&1}
+      puts out
+      expect($?.success?).to be true
+    end
   end
 
 end
