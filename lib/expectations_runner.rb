@@ -34,7 +34,7 @@ class ExpectationsRunner
     file.write(content)
     file.close
 
-    command = "echo \"'#{file.path}'. #{terms}.\" |  #{swipl_path} -q -g main -s expectations/main.pl"
+    command = "echo \"'#{file.path}'. #{terms}.\" |  #{swipl_path} -q -t main -f expectations/main.pl"
     JSON.parse %x{#{command}}
   end
 
