@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/uqbar-project/mumukit.git
-  revision: ad8cd824f6fb8797a2f9ee88827ee3f125930705
+  revision: 4571374b5063589deea28434fadb08646d1f8120
   branch: master
   specs:
     mumukit (0.1.0)

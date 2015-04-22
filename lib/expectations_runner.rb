@@ -1,4 +1,6 @@
 require 'json'
+
+require 'mumukit'
 require 'mumukit/inspection'
 
 class Mumukit::Inspection::PlainInspection

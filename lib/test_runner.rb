@@ -1,3 +1,5 @@
+require 'mumukit'
+
 class TestRunner
   def post_process_file(file, result, status)
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
