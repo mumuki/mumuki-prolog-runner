@@ -1,3 +1,5 @@
+:- [expectations].
+
 comparing_pred(X):- X > 3.
 negating_pred(X):- between(1,5,X), not(X > 3).
 listing_pred(Xs):- findall(X, between(1,5,X), Xs).
