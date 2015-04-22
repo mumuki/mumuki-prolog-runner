@@ -18,7 +18,7 @@ call_expectation(Binding, inspection('HasFindall')) :-
 call_expectation(Binding, inspection('HasNot')) :-
   hasNot(pred(Binding, _)).
 call_expectation(Binding, inspection('HasUsage', Other)) :-
-   usesPredicate(pred(Binding, _), Other).
+   usesPredicate(pred(Binding, _), pred(Other, _)).
 call_expectation(Binding, inspection('HasArity', Arity)) :-
   usesPredicate(pred(Binding, Arity), _).
 call_expectation(Binding, not(Inspection)) :-

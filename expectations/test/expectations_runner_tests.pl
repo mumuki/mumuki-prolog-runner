@@ -3,7 +3,6 @@
 comparing_pred(X):- X > 3.
 negating_pred(X):- between(1,5,X), not(X > 3).
 listing_pred(Xs):- findall(X, between(1,5,X), Xs).
-complex_pred(_):- forall((between(1,5,X), A is X + 2), not(A = 2)).
 
 :- begin_tests(expectations).
 
