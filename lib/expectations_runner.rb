@@ -3,6 +3,8 @@ require 'json'
 require 'mumukit'
 require 'mumukit/inspection'
 
+require_relative './with_swipl'
+
 class Mumukit::Inspection::PlainInspection
   def to_term
     "inspection('#{type}')"
@@ -23,6 +25,7 @@ end
 
 class ExpectationsRunner
   include Mumukit
+  include WithSwipl
 
   def run_expectations!(expectations, content)
     terms = expectations_to_terms(expectations)
@@ -31,7 +34,7 @@ class ExpectationsRunner
     file.write(content)
     file.close
 
-    command = "echo \"'#{file.path}'. #{terms}.\" | expectations/main.pl"
+    command = "echo \"'#{file.path}'. #{terms}.\" |  #{swipl_path} -q -g main -s expectations/main.pl"
     JSON.parse %x{#{command}}
   end
 

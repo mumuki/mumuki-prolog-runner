@@ -1,5 +1,3 @@
-#!/usr/bin/swipl -q -g main -s
-
 :- [expectations_runner].
 
 main(_) :-
