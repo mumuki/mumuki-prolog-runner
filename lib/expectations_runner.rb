@@ -41,7 +41,7 @@ class ExpectationsRunner
   def expectations_to_terms(expectations)
     '[' + expectations.map do |e|
       "expectation('#{e['binding']}',#{inspection_to_term(e['inspection'])})"
-    end.join('') + ']'
+    end.join(',') + ']'
   end
 
   def inspection_to_term(s)

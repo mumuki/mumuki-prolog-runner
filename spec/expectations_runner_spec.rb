@@ -10,12 +10,17 @@ describe ExpectationsRunner do
   let(:expectations_with_usage) {
     [{'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
   }
+  let(:multiple_expectations) {
+    [{'binding' => 'foo', 'inspection' => 'HasBinding'}, {'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
+  }
 
   let(:runner) { ExpectationsRunner.new('swipl_command' => 'swipl') }
 
   it { expect(runner.expectations_to_terms(expectations)).to eq "[expectation('foo',inspection('HasBinding'))]" }
   it { expect(runner.expectations_to_terms(expectations_with_not)).to eq "[expectation('bar',not(inspection('HasBinding')))]" }
   it { expect(runner.expectations_to_terms(expectations_with_usage)).to eq "[expectation('foo',inspection('HasUsage','bar'))]" }
+  it { expect(runner.expectations_to_terms(multiple_expectations)).to eq "[expectation('foo',inspection('HasBinding')),expectation('foo',inspection('HasUsage','bar'))]" }
+
 
   it { expect(runner.run_expectations!(expectations, 'foo(2).')).to eq(
       'expectationResults' => [
