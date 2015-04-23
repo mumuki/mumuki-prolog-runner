@@ -2,3 +2,7 @@ language: ruby
 env: RACK_ENV=development
 rvm:
  - 2.0.0
+before_script:
+ - sudo apt-add-repository ppa:swi-prolog/stable -y
+ - sudo apt-get update -q
+ - sudo apt-get install swi-prolog

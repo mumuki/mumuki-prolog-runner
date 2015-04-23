@@ -1,15 +1,10 @@
 require 'mumukit'
+require_relative './with_swipl'
 
 class TestRunner
-  def swipl_path
-    @config['swipl_command']
-  end
+  include WithSwipl
 
-  def run_test_file!(file)
-    validate_compile_errors(file, *super)
-  end
-
-  def validate_compile_errors(file, result, status)
+  def post_process_file(file, result, status)
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
       [result, :failed]
     else
@@ -20,5 +15,4 @@ class TestRunner
   def run_test_command(file)
     "#{swipl_path} -f #{file.path} --quiet -t run_tests 2>&1"
   end
-
 end

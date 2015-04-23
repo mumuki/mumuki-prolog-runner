@@ -10,7 +10,7 @@ describe TestRunner do
   end
 
   describe '#validate_compile_errors' do
-    let(:results) { runner.validate_compile_errors(file, *original_results) }
+    let(:results) { runner.post_process_file(file, *original_results) }
 
     describe 'fails on test errors' do
       let(:original_results) { ['Test failed', :failed] }
