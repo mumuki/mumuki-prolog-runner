@@ -13,7 +13,7 @@ end
 
 class Mumukit::Inspection::TargetedInspection
   def to_term
-    "inspection('#{type}','#{target}')"
+    "inspection('#{type}',#{Integer(target)})" rescue "inspection('#{type}','#{target}')"
   end
 end
 

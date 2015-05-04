@@ -18,6 +18,16 @@ describe 'runner' do
     expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [])
   end
 
+  it 'answers a valid hash when submission is ok but expectations failed' do
+    response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
+                                 extra: 'foo(1).',
+                                 content: '',
+                                 expectations: [{inspection: 'HasArity:2', binding: 'foo'}])
+
+    expect(response).to eq(status: 'passed',
+                           result: ".\n", expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed])
+  end
+
   it 'answers a valid hash when submission is not ok' do
     response = bridge.
         run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
