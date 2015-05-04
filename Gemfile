@@ -6,4 +6,5 @@ gem 'mumukit-inspection', github: 'uqbar-project/mumukit-inspection', branch: 'm
 
 group :test do
   gem 'rspec', '2.13'
+  gem 'mumukit-bridge', github: 'uqbar-project/mumukit-bridge', branch: 'master'
 end

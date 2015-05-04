@@ -1,0 +1,34 @@
+require 'mumukit/bridge'
+
+describe 'runner' do
+  let(:bridge) { Mumukit::Bridge::Bridge.new('http://localhost:4567') }
+
+  before(:all) do
+    @pid = Process.spawn 'rackup -p 4567 > /dev/null 2>&1'
+    sleep 3
+  end
+  after(:all) { Process.kill 'QUIT', @pid }
+
+  it 'answers a valid hash when submission is ok' do
+    response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
+                                 extra: '',
+                                 content: 'foo(1).',
+                                 expectations: [])
+
+    expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [])
+  end
+
+  it 'answers a valid hash when submission is not ok' do
+    response = bridge.
+        run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
+                   extra: '',
+                   content: 'foo(2).',
+                   expectations: [{inspection: 'HasBinding', binding: 'foo'}]).
+        reject { |k, _v| k == :result }
+
+    expect(response).to eq(status: 'failed',
+                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}])
+  end
+
+
+end
