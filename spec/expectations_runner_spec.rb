@@ -22,17 +22,14 @@ describe ExpectationsRunner do
   it { expect(runner.expectations_to_terms(multiple_expectations)).to eq "[expectation('foo',not(inspection('HasBinding'))),expectation('foo',inspection('HasUsage','bar'))]" }
 
   it { expect(runner.run_expectations!(expectations, 'foo(2).')).to eq(
-      'expectationResults' => [
-          { 'expectation' => expectations[0],'result' => true }]) }
+      [ { 'expectation' => expectations[0],'result' => true }]) }
 
   it { expect(runner.run_expectations!(expectations, 'bar(2).')).to eq(
-      'expectationResults' => [
-          { 'expectation' => expectations[0], 'result' => false }]) }
+      [ { 'expectation' => expectations[0], 'result' => false }]) }
 
   it { expect(runner.run_expectations!(multiple_expectations, 'bar(2).')).to eq(
-      'expectationResults' => [
-          { 'expectation' => multiple_expectations[0], 'result' => true },
-          { 'expectation' => multiple_expectations[1], 'result' => false }]) }
+      [ { 'expectation' => multiple_expectations[0], 'result' => true },
+        { 'expectation' => multiple_expectations[1], 'result' => false }]) }
 
   Dir['expectations/test/*_tests.pl'].each do |test|
     it "Prolog test #{test} pass" do

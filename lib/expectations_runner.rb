@@ -35,7 +35,7 @@ class ExpectationsRunner
     file.close
 
     command = "echo \"'#{file.path}'. #{terms}.\" |  #{swipl_path} -q -t main -f expectations/main.pl"
-    JSON.parse %x{#{command}}
+    JSON.parse(%x{#{command}})['expectationResults']
   end
 
   def expectations_to_terms(expectations)
