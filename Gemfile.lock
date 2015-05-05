@@ -15,10 +15,10 @@ GIT
 
 GIT
   remote: git://github.com/uqbar-project/mumukit.git
-  revision: 972a0039a7d664e19bb29953f2193c6da6a1f4db
-  branch: master
+  revision: bd843d53dae087743a3ba8a995b234853b85612a
+  tag: v0.2.0
   specs:
-    mumukit (0.1.1)
+    mumukit (0.2.0)
       sinatra (~> 1.4)
 
 GEM
