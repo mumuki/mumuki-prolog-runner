@@ -4,6 +4,7 @@ comparing_pred(X):- X > 3.
 negating_pred(X):- between(1,5,X), not(X > 3).
 listing_pred(Xs):- findall(X, between(1,5,X), Xs).
 complex_pred(_):- forall((between(1,5,X), A is X + 2), not(A = 2)).
+cut_pred :- !.
 
 :- begin_tests(expectations).
 
@@ -36,5 +37,8 @@ test(complex_pred_has_not, nondet):-
 
 test(complex_pred_uses_equals, nondet):-
   usesPredicate(pred(complex_pred,1), pred((=),2)).
+
+test(cut_pred_uses_cut, nondet):-
+  hasCut(pred(cut_pred,0)).
 
 :- end_tests(expectations).

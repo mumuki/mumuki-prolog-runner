@@ -25,3 +25,5 @@ call_expectation(Binding, inspection('HasArity', Arity)) :-
   usesPredicate(pred(Binding, Arity), _).
 call_expectation(Binding, not(Inspection)) :-
    \+ call_expectation(Binding, Inspection).
+call_expectation(Binding, inspection('HasCut')) :-
+  hasCut(pred(Binding, _)).
