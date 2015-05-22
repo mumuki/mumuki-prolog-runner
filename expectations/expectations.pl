@@ -40,3 +40,5 @@ hasNot(Predicate):-
 hasFindall(Predicate):-
 	usesPredicate(Predicate, pred(findall,3)).
 
+hasCut(Predicate):-
+	usesPredicate(Predicate, pred(!,0)).
