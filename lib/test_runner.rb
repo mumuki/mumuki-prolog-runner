@@ -8,6 +8,8 @@ class TestRunner < Mumukit::FileTestRunner
   def post_process_file(file, result, status)
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
       [result, :failed]
+    elsif /Caught signal 24 \(xcpu\)/ =~ result
+      ['Timeout: test aborted. Do you have an infinite recursion in your program?', :failed]
     else
       [result, status]
     end

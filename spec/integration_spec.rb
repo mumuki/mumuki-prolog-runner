@@ -44,4 +44,16 @@ describe 'runner' do
   end
 
 
+  it 'answers a valid hash when submission hangs' do
+    response = bridge.
+        run_tests!(test: 'test(ok) :- foo(2).',
+                   extra: '',
+                   content: 'foo(2) :- foo(2).',
+                   expectations: [{inspection: 'HasBinding', binding: 'foo'}])
+    expect(response).to eq(status: 'failed',
+                           result: 'Timeout: test aborted. Do you have an infinite recursion in your program?',
+                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
+                           feedback:'')
+  end
+
 end
