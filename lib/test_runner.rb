@@ -1,7 +1,8 @@
 require 'mumukit'
+
 require_relative './with_swipl'
 
-class TestRunner
+class TestRunner < Mumukit::FileTestRunner
   include WithSwipl
 
   def post_process_file(file, result, status)
