@@ -15,7 +15,7 @@ describe 'runner' do
                                  content: 'foo(1).',
                                  expectations: [])
 
-    expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [])
+    expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [], feedback:'')
   end
 
   it 'answers a valid hash when submission is ok but expectations failed' do
@@ -25,7 +25,9 @@ describe 'runner' do
                                  expectations: [{inspection: 'HasArity:2', binding: 'foo'}])
 
     expect(response).to eq(status: 'passed',
-                           result: ".\n", expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed])
+                           result: ".\n",
+                           expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
+                           feedback:'')
   end
 
   it 'answers a valid hash when submission is not ok' do
@@ -37,7 +39,8 @@ describe 'runner' do
         reject { |k, _v| k == :result }
 
     expect(response).to eq(status: 'failed',
-                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}])
+                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
+                           feedback:'')
   end
 
 

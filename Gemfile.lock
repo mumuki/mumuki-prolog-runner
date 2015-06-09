@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: dfacd0f8cfa2cf362172f1fd1778735992bf9e40
+  revision: f990a1a9a74468e4b299c7a4c985db82fdbbf0fa
   branch: feature-limited-sandbox
   specs:
     mumukit (0.4.0)

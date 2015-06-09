@@ -27,7 +27,7 @@ class ExpectationsRunner
   include Mumukit
   include WithSwipl
 
-  def run_expectations!(expectations, content, extra)
+  def run_expectations!(expectations, content, extra='')
     terms = expectations_to_terms(expectations)
 
     file = Tempfile.new('mumuki.expectations')

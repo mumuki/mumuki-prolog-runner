@@ -24,7 +24,7 @@ EOT
 
   describe '#create_compilation_file!' do
     let(:compiler) { TestCompiler.new(nil) }
-    let(:file) { compiler.create_compilation_file!('bar.', 'extra', 'foo.') }
+    let(:file) { compiler.create_compilation!('bar.', 'extra', 'foo.') }
 
     it { expect(File.exists? file.path).to be true }
   end
