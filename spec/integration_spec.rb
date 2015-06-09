@@ -4,10 +4,10 @@ describe 'runner' do
   let(:bridge) { Mumukit::Bridge::Bridge.new('http://localhost:4567') }
 
   before(:all) do
-    @pid = Process.spawn 'rackup -p 4567 > /dev/null 2>&1'
+    @pid = Process.spawn 'rackup -p 4567', err: '/dev/null'
     sleep 3
   end
-  after(:all) { Process.kill 'QUIT', @pid }
+  after(:all) { Process.kill 'TERM', @pid }
 
   it 'answers a valid hash when submission is ok' do
     response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
@@ -15,7 +15,7 @@ describe 'runner' do
                                  content: 'foo(1).',
                                  expectations: [])
 
-    expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [])
+    expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [], feedback:'')
   end
 
   it 'answers a valid hash when submission is ok but expectations failed' do
@@ -25,7 +25,9 @@ describe 'runner' do
                                  expectations: [{inspection: 'HasArity:2', binding: 'foo'}])
 
     expect(response).to eq(status: 'passed',
-                           result: ".\n", expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed])
+                           result: ".\n",
+                           expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
+                           feedback:'')
   end
 
   it 'answers a valid hash when submission is not ok' do
@@ -37,8 +39,21 @@ describe 'runner' do
         reject { |k, _v| k == :result }
 
     expect(response).to eq(status: 'failed',
-                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}])
+                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
+                           feedback:'')
   end
 
+
+  it 'answers a valid hash when submission hangs' do
+    response = bridge.
+        run_tests!(test: 'test(ok) :- foo(2).',
+                   extra: '',
+                   content: 'foo(2) :- foo(2).',
+                   expectations: [{inspection: 'HasBinding', binding: 'foo'}])
+    expect(response).to eq(status: 'failed',
+                           result: 'Timeout: test aborted. Do you have an infinite recursion in your program?',
+                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
+                           feedback:'')
+  end
 
 end

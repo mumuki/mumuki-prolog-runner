@@ -1,6 +1,6 @@
 require 'mumukit'
 
-class TestCompiler
+class TestCompiler < Mumukit::FileTestCompiler
   def compile(test_src, extra_src, content_src)
     <<EOF
 :- begin_tests(mumuki_submission_test, []).
