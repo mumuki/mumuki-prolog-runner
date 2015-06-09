@@ -1,24 +1,24 @@
 GIT
-  remote: git://github.com/uqbar-project/mumukit-bridge.git
-  revision: f88727363627c51f6032b43e0839f77d23414439
+  remote: git://github.com/mumuki/mumukit-bridge.git
+  revision: 0720c79b69a1297f02db1afb5c6aa26d62f008a0
   branch: master
   specs:
     mumukit-bridge (0.0.1)
       rest-client
 
 GIT
-  remote: git://github.com/uqbar-project/mumukit-inspection.git
-  revision: 7c29d27aaaa52b021a9d6c7ad0e9c7b4b39fa205
+  remote: git://github.com/mumuki/mumukit-inspection.git
+  revision: 11f0a129b18138336a2d2b1c9b72b97b2f34b208
   branch: master
   specs:
     mumukit-inspection (0.0.1)
 
 GIT
-  remote: git://github.com/uqbar-project/mumukit.git
-  revision: bd843d53dae087743a3ba8a995b234853b85612a
-  tag: v0.2.0
+  remote: git://github.com/mumuki/mumukit.git
+  revision: dfacd0f8cfa2cf362172f1fd1778735992bf9e40
+  branch: feature-limited-sandbox
   specs:
-    mumukit (0.2.0)
+    mumukit (0.4.0)
       sinatra (~> 1.4)
 
 GEM
@@ -29,9 +29,9 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
-    mime-types (2.5)
+    mime-types (2.6.1)
     netrc (0.10.3)
-    rack (1.6.0)
+    rack (1.6.1)
     rack-protection (1.5.3)
       rack
     rake (10.4.2)
