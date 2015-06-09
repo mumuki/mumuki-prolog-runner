@@ -4,10 +4,10 @@ describe 'runner' do
   let(:bridge) { Mumukit::Bridge::Bridge.new('http://localhost:4567') }
 
   before(:all) do
-    @pid = Process.spawn 'rackup -p 4567 > /dev/null 2>&1'
+    @pid = Process.spawn 'rackup -p 4567', err: '/dev/null'
     sleep 3
   end
-  after(:all) { Process.kill 'QUIT', @pid }
+  after(:all) { Process.kill 'TERM', @pid }
 
   it 'answers a valid hash when submission is ok' do
     response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
