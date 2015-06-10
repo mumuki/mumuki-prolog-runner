@@ -1,0 +1,8 @@
+es:
+  time_exceeded: 'Tiempo excedido: test abortado. ¿Puede que tengas algun predicado con recursion inifinta?'
+  wrong_distinct_operator: Recordá que el predicado infijo distinto en prolog se escribe así: \=
+  clauses_not_together: Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas
+  singleton_variables: "Tenés variables sin usar"
+  wrong_parameter_order: "Revisá si respetaste el orden de los parámetros en los predicados solicitados"
+  operator_error: "Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito"
+  wrong_comma: "Cuidado, tenes errores de sintaxis. Puede ser que te esté faltando algún :- o que lo hayas confundido con una coma?"

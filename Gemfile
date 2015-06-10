@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rake'
-gem 'mumukit', github: 'mumuki/mumukit', branch: 'master'
+gem 'mumukit', github: 'mumuki/mumukit', branch: 'issue-#11-i18n'
 gem 'mumukit-inspection', github: 'mumuki/mumukit-inspection', branch: 'master'
 
 group :test do

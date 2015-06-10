@@ -6,19 +6,19 @@ class FeedbackRunner < Mumukit::Stub
     content = request.content
     test_results = results.test_results
 
-    suggestions << 'Recordá que el predicado infijo distinto en prolog se escribe así: \=' if wrong_neq_operator(content)
-    suggestions << 'Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas' if clauses_not_together(test_results)
-    suggestions << 'Tenés variables sin usar' if singleton_variables(test_results)
-    suggestions << 'Revisá si respetaste el orden de los parámetros en los predicados solicitados' if test_failed(test_results)
-    suggestions << 'Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito' if operator_error(test_results)
-    suggestions << 'Cuidado, tenes errores de sintaxis. Puede ser que te esté faltando algún :- o que lo hayas confundido con una coma?' if cannot_redefine_comma(test_results)
+    suggestions << I18n.t(:wrong_distinct_operator) if wrong_distinct_operator(content)
+    suggestions << I18n.t(:clauses_not_together) if clauses_not_together(test_results)
+    suggestions << I18n.t(:singleton_variables) if singleton_variables(test_results)
+    suggestions << I18n.t(:wrong_parameter_order) if test_failed(test_results)
+    suggestions << I18n.t(:operator_error) if operator_error(test_results)
+    suggestions << I18n.t(:wrong_comma) if cannot_redefine_comma(test_results)
 
     suggestions.join("\n")
   end
 
   private
 
-  def wrong_neq_operator(content)
+  def wrong_distinct_operator(content)
     %w(/= <> !=).any? { |it| content.include? it }
   end
 

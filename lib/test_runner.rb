@@ -9,7 +9,7 @@ class TestRunner < Mumukit::FileTestRunner
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
       [result, :failed]
     elsif /Caught signal 24 \(xcpu\)/ =~ result
-      ['Timeout: test aborted. Do you have an infinite recursion in your program?', :failed]
+      [I18n.t('mumukit.time_exceeded'), :failed]
     else
       [result, status]
     end
