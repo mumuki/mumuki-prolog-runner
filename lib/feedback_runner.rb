@@ -1,4 +1,6 @@
-class FeedbackRunner
+require 'mumukit'
+
+class FeedbackRunner < Mumukit::Stub
   def run_feedback!(request, results)
     suggestions = []
     content = request.content

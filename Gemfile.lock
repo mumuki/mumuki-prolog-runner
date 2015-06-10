@@ -15,10 +15,10 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: bd8a2acb5f332d13db0ec95ed52a862a21634deb
+  revision: 2df8e307e38c5d783b71711d0d51493e35abec44
   branch: master
   specs:
-    mumukit (0.4.0)
+    mumukit (0.5.0)
       sinatra (~> 1.4)
 
 GEM
