@@ -27,11 +27,11 @@ class ExpectationsRunner
   include Mumukit
   include WithSwipl
 
-  def run_expectations!(expectations, content, extra='')
-    terms = expectations_to_terms(expectations)
+  def run_expectations!(request)
+    terms = expectations_to_terms(request.expectations)
 
     file = Tempfile.new('mumuki.expectations')
-    file.write(content)
+    file.write(request.content)
     file.close
 
     command = "echo \"'#{file.path}'. #{terms}.\" |  #{swipl_path} -q -t main -f expectations/main.pl"

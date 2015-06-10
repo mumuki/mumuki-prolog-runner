@@ -1,8 +1,8 @@
 class FeedbackRunner
-  def run_feedback!(params)
+  def run_feedback!(request, results)
     suggestions = []
-    content = params[:content]
-    test_results = params[:test_results]
+    content = request.content
+    test_results = results.test_results
 
     suggestions << 'Recordá que el predicado infijo distinto en prolog se escribe así: \=' if wrong_neq_operator(content)
     suggestions << 'Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas' if clauses_not_together(test_results)
