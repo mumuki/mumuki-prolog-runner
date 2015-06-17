@@ -12,7 +12,7 @@ class FeedbackRunner < Mumukit::Stub
     suggestions << I18n.t(:wrong_parameter_order) if test_failed(test_results)
     suggestions << I18n.t(:operator_error) if operator_error(test_results)
     suggestions << I18n.t(:wrong_comma) if cannot_redefine_comma(test_results)
-
+    suggestions << t(:missing_predicate) if missing_predicate(test_results)
     suggestions.join("\n")
   end
 
@@ -42,6 +42,10 @@ class FeedbackRunner < Mumukit::Stub
 
   def cannot_redefine_comma(test_results)
     /ERROR: (.*): Full stop in clause-body\? Cannot redefine ,\/2/  =~ test_results
+  end
+
+  def missing_predicate(test_results)
+    /.*:(.*): Undefined procedure: .*:(.*)/ =~ test_results
   end
 
 end

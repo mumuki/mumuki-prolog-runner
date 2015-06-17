@@ -6,3 +6,4 @@ es:
   wrong_parameter_order: "Revisá si respetaste el orden de los parámetros en los predicados solicitados"
   operator_error: "Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito"
   wrong_comma: "Cuidado, tenes errores de sintaxis. Puede ser que te esté faltando algún :- o que lo hayas confundido con una coma?"
+  missing_predicate: "Parece que intentaste usar un predicado que no existe. ¿Habrás escrito bien su nombre o pasado la cantidad correcta de argumentos?"
