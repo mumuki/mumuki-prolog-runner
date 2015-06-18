@@ -9,7 +9,7 @@ class TestRunner < Mumukit::FileTestRunner
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
       [result, :failed]
     elsif /Caught signal 24 \(xcpu\)/ =~ result
-      [I18n.t('mumukit.time_exceeded'), :failed]
+      [I18n.t(:time_exceeded), :failed]
     else
       [result, status]
     end

@@ -1,6 +1,7 @@
 require_relative 'spec_helper'
 
 describe FeedbackRunner do
+  before { I18n.locale = :es }
   let(:runner) { FeedbackRunner.new(nil) }
   let!(:feedback) { runner.run_feedback!(request, results) }
 
