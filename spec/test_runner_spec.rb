@@ -1,4 +1,4 @@
-require_relative '../lib/test_runner'
+require_relative 'spec_helper'
 
 describe TestRunner do
   let(:runner) { TestRunner.new({'swipl_command' => 'swipl'}) }

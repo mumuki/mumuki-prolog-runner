@@ -1,5 +1,4 @@
-require 'ostruct'
-require_relative '../lib/feedback_runner'
+require_relative 'spec_helper'
 
 describe FeedbackRunner do
   let(:runner) { FeedbackRunner.new(nil) }

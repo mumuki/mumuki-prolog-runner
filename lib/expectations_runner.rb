@@ -3,8 +3,6 @@ require 'json'
 require 'mumukit'
 require 'mumukit/inspection'
 
-require_relative './with_swipl'
-
 class Mumukit::Inspection::PlainInspection
   def to_term
     "inspection('#{type}')"

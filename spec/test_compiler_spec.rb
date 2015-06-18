@@ -1,5 +1,4 @@
-require_relative '../lib/test_compiler'
-require 'ostruct'
+require_relative 'spec_helper'
 
 describe TestCompiler do
   def req(test, extra, content)

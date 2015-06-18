@@ -1,5 +1,4 @@
-require_relative '../lib/expectations_runner'
-require 'ostruct'
+require_relative 'spec_helper'
 
 describe ExpectationsRunner do
   def req(expectations, content)
