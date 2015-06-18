@@ -15,8 +15,8 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: d656eec269ebf08d9556efe67383b48fd2c065cd
-  branch: issue-#11-i18n
+  revision: c7d26730e33931273a4b8b23ba04ae75db8cf359
+  branch: master
   specs:
     mumukit (0.5.0)
       i18n (~> 0.7)

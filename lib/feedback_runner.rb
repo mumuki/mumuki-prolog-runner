@@ -4,7 +4,7 @@ class FeedbackRunner < Mumukit::Stub
   def run_feedback!(request, results)
     suggestions = []
     content = request.content
-    test_results = results.test_results[1]
+    test_results = results.test_results[0]
 
     suggestions << I18n.t(:wrong_distinct_operator) if wrong_distinct_operator(content)
     suggestions << I18n.t(:clauses_not_together) if clauses_not_together(test_results)
@@ -23,12 +23,11 @@ class FeedbackRunner < Mumukit::Stub
   end
 
   def clauses_not_together(test_results)
-    /Clauses of plunit_mumuki_submission_test:(.*) are not together in the source-file/ =~ test_results
+    /Clauses of .*:(.*) are not together in the source-file/ =~ test_results
   end
 
-
   def singleton_variables(test_results)
-    /Warning: (.*): Singleton variables: [(.*)]/ =~ test_results
+    /Singleton variables: \[(.*)\]/ =~ test_results
   end
 
   def test_failed(test_results)
