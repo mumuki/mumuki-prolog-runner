@@ -15,7 +15,7 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: a2914daff8aaad9101508e0d2e83b74d524deaa3
+  revision: 271c85521fa8ecab2815a249a90bc7a26b6cd0b6
   branch: issue-#11-i18n
   specs:
     mumukit (0.5.0)
@@ -33,7 +33,7 @@ GEM
     i18n (0.7.0)
     mime-types (2.6.1)
     netrc (0.10.3)
-    rack (1.6.1)
+    rack (1.6.2)
     rack-protection (1.5.3)
       rack
     rake (10.4.2)
