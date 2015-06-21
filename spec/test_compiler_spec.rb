@@ -1,7 +1,10 @@
-require_relative '../lib/test_compiler'
-require 'ostruct'
+require_relative 'spec_helper'
 
 describe TestCompiler do
+  def req(test, extra, content)
+    OpenStruct.new(test:test, extra:extra, content: content)
+  end
+
   true_test = <<EOT
 test(the_truth) :-
   assertion(true == true).
@@ -19,12 +22,12 @@ EOT
 
   describe '#compile' do
     let(:compiler) { TestCompiler.new(nil) }
-    it { expect(compiler.compile(true_test, 'foo(_).',  '')).to eq(compiled_test_submission) }
+    it { expect(compiler.compile(req(true_test, 'foo(_).',  ''))).to eq(compiled_test_submission) }
   end
 
   describe '#create_compilation_file!' do
     let(:compiler) { TestCompiler.new(nil) }
-    let(:file) { compiler.create_compilation!('bar.', 'extra', 'foo.') }
+    let(:file) { compiler.create_compilation!(req('bar.', 'extra', 'foo.')) }
 
     it { expect(File.exists? file.path).to be true }
   end
