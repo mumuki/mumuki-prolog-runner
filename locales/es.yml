@@ -7,3 +7,4 @@ es:
   operator_error: "Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito"
   wrong_comma: "Cuidado, tenes errores de sintaxis. Puede ser que te esté faltando algún :- o que lo hayas confundido con una coma?"
   missing_predicate: 'Revisá el predicado `%{target}`. Parece que intentaste usar `%{missing}`, pero no existe. ¿Habrás escrito mal su nombre o pasado una cantidad incorrecta de argumentos?'
+  not_sufficiently_instantiated: 'Ojo con la inversibilidad de `%{target}`. Cuando lo uses, asegurate de generar todos su argumentos no inversibles'

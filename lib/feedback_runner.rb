@@ -20,13 +20,14 @@ class FeedbackRunner < Mumukit::Stub
     test_results = results.test_results[0]
 
     feedback = Feedback.new(content, test_results)
-    feedback.check(:wrong_distinct_operator, &c(:wrong_distinct_operator))
+    feedback.check(:missing_predicate, &c(:missing_predicate))
+    feedback.check(:operator_error, &c(:operator_error))
     feedback.check(:clauses_not_together, &c(:clauses_not_together))
     feedback.check(:singleton_variables, &c(:singleton_variables))
-    feedback.check(:test_failed, &c(:test_failed))
-    feedback.check(:operator_error, &c(:operator_error))
+    feedback.check(:wrong_distinct_operator, &c(:wrong_distinct_operator))
     feedback.check(:wrong_comma, &c(:cannot_redefine_comma))
-    feedback.check(:missing_predicate, &c(:missing_predicate))
+    feedback.check(:not_sufficiently_instantiated, &c(:not_sufficiently_instantiated))
+    feedback.check(:test_failed, &c(:test_failed))
     feedback.build
   end
 
@@ -72,7 +73,13 @@ class FeedbackRunner < Mumukit::Stub
   end
 
   def test_failed(_, test_results)
-    /ERROR: (.*): test (.*): failed/ =~ test_results
+    /test (.*): failed/ =~ test_results
+  end
+
+  def not_sufficiently_instantiated(_, test_results)
+    (/received error: (.*): Arguments are not sufficiently instantiated/.match test_results).try do |it|
+      {target: it[1]}
+    end
   end
 
   def operator_error(_, test_results)

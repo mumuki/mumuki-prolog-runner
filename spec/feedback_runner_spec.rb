@@ -13,10 +13,9 @@ describe FeedbackRunner do
     )}
 
     it { expect(feedback).to eq(
-"* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`
-* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
+"* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito
+* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`") }
   end
-
 
   context 'when clauses not together' do
     let(:request) { OpenStruct.new(
@@ -70,6 +69,14 @@ foo(2).')}
         test: 'test(foo) :- foo(2).' )}
 
     it { expect(feedback).to eq('') }
+  end
+
+  context 'when not sufficiently instantiated' do
+    let(:request) { OpenStruct.new(
+        content: 'foo(2) :- bar(X)',
+        test: 'test(foo) :- X is Y + 2, foo(Y, X).' )}
+
+    it { expect(feedback).to include('* Ojo con la inversibilidad de `is/2`. Cuando lo uses, asegurate de generar todos su argumentos no inversibles') }
   end
 
 end
