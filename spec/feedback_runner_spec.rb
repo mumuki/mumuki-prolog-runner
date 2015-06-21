@@ -12,7 +12,9 @@ describe FeedbackRunner do
         content: 'foo(X) :- X != 2'
     )}
 
-    it { expect(feedback).to include 'Recordá que el predicado infijo distinto en prolog se escribe así: \=' }
+    it { expect(feedback).to eq(
+"* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`
+* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
   end
 
 
@@ -23,7 +25,8 @@ foo(X) :- bar(X).
 bar(3).
 foo(2).')}
 
-    it { expect(feedback).to eq 'Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas' }
+    it { expect(feedback).to eq(
+'* Revisá el predicado `foo/1`. Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas') }
   end
 
 
@@ -31,7 +34,42 @@ foo(2).')}
     let(:request) { OpenStruct.new(
         content: 'foo(X, Y) :- bar(X).')}
 
-    it { expect(feedback).to eq 'Tenés variables sin usar' }
+    it { expect(feedback).to eq '* Tenés variables `Y` sin usar' }
+  end
+
+
+  context 'when syntax error' do
+    let(:request) { OpenStruct.new(
+        content: 'foo(X, Y) bar(X).')}
+
+    it { expect(feedback).to eq '* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito' }
+  end
+
+  context 'when missing predicate used' do
+    let(:request) { OpenStruct.new(
+        content: 'foo(X, 2) :- bar(X).',
+        test: 'test(foo) :- foo(2, 2).' )}
+
+    it { expect(feedback).to eq(
+'* Revisá el predicado `foo/2`. Parece que intentaste usar `bar/1`, pero no existe. ¿Habrás escrito mal su nombre o pasado una cantidad incorrecta de argumentos?') }
+  end
+
+
+  context 'when missing predicate tested' do
+    let(:request) { OpenStruct.new(
+        content: 'foo(X, 2) :- bar(X).',
+        test: 'test(foo) :- foo(2).' )}
+
+    it { expect(feedback).to eq('') }
+  end
+
+
+  context 'when missing predicate tested' do
+    let(:request) { OpenStruct.new(
+        content: 'foo(2) :- bar(X)',
+        test: 'test(foo) :- foo(2).' )}
+
+    it { expect(feedback).to eq('') }
   end
 
 end
