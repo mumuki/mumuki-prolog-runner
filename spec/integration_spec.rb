@@ -15,7 +15,7 @@ describe 'runner' do
                                  content: 'foo(1).',
                                  expectations: [])
 
-    expect(response).to eq(status: 'passed', result: ".\n", expectation_results: [], feedback:'')
+    expect(response).to eq(status: 'passed', result: "```\n.\n\n```", expectation_results: [], feedback:'')
   end
 
   it 'answers a valid hash when submission is ok but expectations failed' do
@@ -25,7 +25,7 @@ describe 'runner' do
                                  expectations: [{inspection: 'HasArity:2', binding: 'foo'}])
 
     expect(response).to eq(status: 'passed',
-                           result: ".\n",
+                           result: "```\n.\n\n```",
                            expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
                            feedback:'')
   end
@@ -51,7 +51,7 @@ describe 'runner' do
                    content: 'foo(2) :- foo(2).',
                    expectations: [{inspection: 'HasBinding', binding: 'foo'}])
     expect(response).to eq(status: 'failed',
-                           result: 'Timeout: test aborted. Do you have an infinite recursion in your program?',
+                           result: "```\nTimeout: test aborted. Do you have an infinite recursion in your program?\n```",
                            expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
                            feedback:'')
   end
