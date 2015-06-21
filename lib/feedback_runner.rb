@@ -1,5 +1,6 @@
 require 'mumukit'
 
+#FIXME use ActiveSupport
 class Object
   def try
     yield self
@@ -15,19 +16,22 @@ end
 
 class FeedbackRunner < Mumukit::Stub
   def run_feedback!(request, results)
-    suggestions = []
+    build_feedback request, results, [
+        :missing_predicate,
+        :operator_error,
+        :clauses_not_together,
+        :singleton_variables,
+        :wrong_distinct_operator,
+        :wrong_comma,
+        :not_sufficiently_instantiated,
+        :test_failed]
+  end
+
+  def build_feedback(request, results, checks)
     content = request.content
     test_results = results.test_results[0]
-
     feedback = Feedback.new(content, test_results)
-    feedback.check(:missing_predicate, &c(:missing_predicate))
-    feedback.check(:operator_error, &c(:operator_error))
-    feedback.check(:clauses_not_together, &c(:clauses_not_together))
-    feedback.check(:singleton_variables, &c(:singleton_variables))
-    feedback.check(:wrong_distinct_operator, &c(:wrong_distinct_operator))
-    feedback.check(:wrong_comma, &c(:cannot_redefine_comma))
-    feedback.check(:not_sufficiently_instantiated, &c(:not_sufficiently_instantiated))
-    feedback.check(:test_failed, &c(:test_failed))
+    checks.each { |it| feedback.check(it, &c(it)) }
     feedback.build
   end
 
@@ -35,6 +39,7 @@ class FeedbackRunner < Mumukit::Stub
     lambda { |content, test_results| self.send(selector, content, test_results) }
   end
 
+  #FIXME may be extracted to mumukit
   class Feedback
     def initialize(content, test_results)
       @content = content
@@ -87,7 +92,7 @@ class FeedbackRunner < Mumukit::Stub
   end
 
 
-  def cannot_redefine_comma(_, test_results)
+  def wrong_comma(_, test_results)
     /ERROR: (.*): Full stop in clause-body\? Cannot redefine ,\/2/ =~ test_results
   end
 
