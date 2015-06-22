@@ -30,25 +30,25 @@ class FeedbackRunner < Mumukit::Stub
   def build_feedback(request, results, checks)
     content = request.content
     test_results = results.test_results[0]
-    feedback = Feedback.new(content, test_results)
-    checks.each { |it| feedback.check(it, &c(it)) }
+
+    pointer = TestCompiler.new_pointer(request)
+    feedback = Feedback.new
+    checks.each { |it| feedback.check(it, &c(it, content, test_results, pointer)) }
     feedback.build
   end
 
-  def c(selector)
-    lambda { |content, test_results| self.send(selector, content, test_results) }
+  def c(selector, content, test_results, pointer)
+    lambda { self.send(selector, content, test_results) }
   end
 
   #FIXME may be extracted to mumukit
   class Feedback
-    def initialize(content, test_results)
-      @content = content
-      @test_results = test_results
+    def initialize
       @suggestions = []
     end
 
     def check(key, &block)
-      binding = block.call(@content, @test_results)
+      binding = block.call
       if binding
         @suggestions << I18n.t(key, binding)
       end
