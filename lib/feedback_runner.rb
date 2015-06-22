@@ -15,8 +15,14 @@ class NilClass
 end
 
 class FeedbackRunner < Mumukit::Stub
+  attr_accessor :content, :pointer, :test_results
+
   def run_feedback!(request, results)
-    build_feedback request, results, [
+    self.content = request.content
+    self.test_results = results.test_results[0]
+    self.pointer = TestCompiler.new_pointer(request)
+
+    build_feedback [
         :missing_predicate,
         :operator_error,
         :clauses_not_together,
@@ -27,18 +33,14 @@ class FeedbackRunner < Mumukit::Stub
         :test_failed]
   end
 
-  def build_feedback(request, results, checks)
-    content = request.content
-    test_results = results.test_results[0]
-
-    pointer = TestCompiler.new_pointer(request)
+  def build_feedback(checks)
     feedback = Feedback.new
-    checks.each { |it| feedback.check(it, &c(it, content, test_results, pointer)) }
+    checks.each { |it| feedback.check(it, &c(it)) }
     feedback.build
   end
 
-  def c(selector, content, test_results, pointer)
-    lambda { self.send(selector, content, test_results) }
+  def c(selector)
+    lambda { self.send(selector) }
   end
 
   #FIXME may be extracted to mumukit
@@ -59,44 +61,44 @@ class FeedbackRunner < Mumukit::Stub
     end
   end
 
-  def wrong_distinct_operator(content, _)
+  def wrong_distinct_operator
     (/.{0,9}(\/=|<>|!=).{0,9}/.match content).try do |it|
       {near: it[0]}
     end
   end
 
-  def clauses_not_together(_, test_results)
+  def clauses_not_together
     (/Clauses of .*:(.*) are not together in the source-file/.match test_results).try do |it|
       {target: it[1]}
     end
   end
 
-  def singleton_variables(_, test_results)
+  def singleton_variables
     (/Singleton variables: \[(.*)\]/.match test_results).try do |it|
       {target: it[1]}
     end
   end
 
-  def test_failed(_, test_results)
+  def test_failed
     /test (.*): failed/ =~ test_results
   end
 
-  def not_sufficiently_instantiated(_, test_results)
+  def not_sufficiently_instantiated
     (/received error: (.*): Arguments are not sufficiently instantiated/.match test_results).try do |it|
       {target: it[1]}
     end
   end
 
-  def operator_error(_, test_results)
+  def operator_error
     /ERROR: (.*): Syntax error: Operator expected/ =~ test_results
   end
 
 
-  def wrong_comma(_, test_results)
+  def wrong_comma
     /ERROR: (.*): Full stop in clause-body\? Cannot redefine ,\/2/ =~ test_results
   end
 
-  def missing_predicate(_, test_results)
+  def missing_predicate
     (/.*:(.*): Undefined procedure: .*:(.*)/.match test_results).try do |it|
       {target: it[1],
        missing: it[2]} unless it[1].include? 'unit body'
