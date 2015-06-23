@@ -4,7 +4,7 @@ es:
   clauses_not_together: 'Revisá el predicado `%{target}`. Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas'
   singleton_variables: "Tenés variables `%{target}` sin usar"
   test_failed: "Tu código no pasó nuestras pruebas. Revisá si hiciste lo que pide el enunciado, y si **respetaste el orden de los parámetros** en los predicados solicitados"
-  operator_error: "Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito"
+  operator_error: "Cuidado, tenés errores de sintaxis en la línea `%{line}`. Revisá que el código esté bien escrito"
   wrong_comma: "Cuidado, tenes errores de sintaxis. Puede ser que te esté faltando algún :- o que lo hayas confundido con una coma?"
   missing_predicate: 'Revisá el predicado `%{target}`. Parece que intentaste usar `%{missing}`, pero no existe. ¿Habrás escrito mal su nombre o pasado una cantidad incorrecta de argumentos?'
   not_sufficiently_instantiated: 'Ojo con la inversibilidad de `%{target}`. Cuando lo uses, asegurate de generar todos su argumentos no inversibles'

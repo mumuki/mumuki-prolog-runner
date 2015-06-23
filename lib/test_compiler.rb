@@ -12,6 +12,6 @@ EOF
   end
 
   def self.new_pointer(request)
-    ContentPointer.new(request.content, (request.test.length rescue 0) + 1)
+    ContentPointer.new(request.content, (request.test.lines.length rescue 0) + 4)
   end
 end

@@ -14,6 +14,24 @@ class NilClass
   end
 end
 
+#FIXME may be extracted to mumukit
+class Feedback
+  def initialize
+    @suggestions = []
+  end
+
+  def check(key, &block)
+    binding = block.call
+    if binding
+      @suggestions << I18n.t(key, binding)
+    end
+  end
+
+  def build
+    @suggestions.map { |it| "* #{it}" }.join("\n")
+  end
+end
+
 class FeedbackRunner < Mumukit::Stub
   attr_accessor :content, :pointer, :test_results
 
@@ -41,24 +59,6 @@ class FeedbackRunner < Mumukit::Stub
 
   def c(selector)
     lambda { self.send(selector) }
-  end
-
-  #FIXME may be extracted to mumukit
-  class Feedback
-    def initialize
-      @suggestions = []
-    end
-
-    def check(key, &block)
-      binding = block.call
-      if binding
-        @suggestions << I18n.t(key, binding)
-      end
-    end
-
-    def build
-      @suggestions.map { |it| "* #{it}" }.join("\n")
-    end
   end
 
   def wrong_distinct_operator
@@ -90,7 +90,9 @@ class FeedbackRunner < Mumukit::Stub
   end
 
   def operator_error
-    /ERROR: (.*): Syntax error: Operator expected/ =~ test_results
+    (/ERROR: .*:(.*):.*: Syntax error: Operator expected/.match test_results).try do |it|
+      {line: pointer.line_at(it[1].to_i) }
+    end
   end
 
 
