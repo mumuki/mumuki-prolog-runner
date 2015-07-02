@@ -1,5 +1,3 @@
-require 'mumukit'
-
 #FIXME use ActiveSupport
 class Object
   def try

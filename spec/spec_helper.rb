@@ -1,5 +1,4 @@
 require 'i18n'
-require 'mumukit'
 require 'ostruct'
 
 require_relative '../lib/plunit'

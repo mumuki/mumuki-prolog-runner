@@ -1,3 +1,5 @@
+require 'mumukit'
+
 require_relative 'with_swipl'
 
 require_relative 'test_runner'
