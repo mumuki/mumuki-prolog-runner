@@ -1,6 +1,6 @@
 require 'i18n'
 require 'ostruct'
 
-require_relative '../lib/plunit'
+require_relative '../lib/plunit_server'
 
 I18n.load_path += Dir[File.join('.', 'locales', '*.yml')]
