@@ -59,7 +59,7 @@ foo(2).')}
         content: 'foo(X, 2) :- bar(X).',
         test: 'test(foo) :- foo(2).' )}
 
-    it { expect(feedback).to eq('') }
+    it { expect(feedback).to be_blank }
   end
 
 
@@ -68,7 +68,7 @@ foo(2).')}
         content: 'foo(2) :- bar(X)',
         test: 'test(foo) :- foo(2).' )}
 
-    it { expect(feedback).to eq('') }
+    it { expect(feedback).to be_blank }
   end
 
   context 'when not sufficiently instantiated' do

@@ -1,19 +1,5 @@
 require 'mumukit'
 
-#FIXME use ActiveSupport
-class Object
-  def try
-    yield self
-  end
-end
-
-
-class NilClass
-  def try
-    self
-  end
-end
-
 class FeedbackRunner < Mumukit::Stub
   def run_feedback!(request, results)
     build_feedback request, results, [

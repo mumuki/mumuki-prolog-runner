@@ -15,7 +15,12 @@ describe 'runner' do
                                  content: 'foo(1).',
                                  expectations: [])
 
-    expect(response).to eq(status: 'passed', result: "```\n.\n\n```", expectation_results: [], feedback:'')
+    expect(response).to eq(status: :passed,
+                           result: "```\n.\n\n```",
+                           expectation_results: [],
+                           test_results: [],
+                           feedback: '',
+                           response_type: :unstructured)
   end
 
   it 'answers a valid hash when submission is ok but expectations failed' do
@@ -24,10 +29,12 @@ describe 'runner' do
                                  content: '',
                                  expectations: [{inspection: 'HasArity:2', binding: 'foo'}])
 
-    expect(response).to eq(status: 'passed',
+    expect(response).to eq(status: :passed_with_warnings,
                            result: "```\n.\n\n```",
                            expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
-                           feedback:'')
+                           test_results: [],
+                           feedback:'',
+                           response_type: :unstructured)
   end
 
   it 'answers a valid hash when submission is not ok' do
@@ -38,9 +45,11 @@ describe 'runner' do
                    expectations: [{inspection: 'HasBinding', binding: 'foo'}]).
         reject { |k, _v| k == :result }
 
-    expect(response).to eq(status: 'failed',
+    expect(response).to eq(status: :failed,
                            expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
-                           feedback:'')
+                           feedback: '',
+                           test_results: [],
+                           response_type: :unstructured)
   end
 
 
@@ -50,10 +59,13 @@ describe 'runner' do
                    extra: '',
                    content: 'foo(2) :- foo(2).',
                    expectations: [{inspection: 'HasBinding', binding: 'foo'}])
-    expect(response).to eq(status: 'failed',
+
+    expect(response).to eq(status: :failed,
                            result: "```\nTimeout: test aborted. Do you have an infinite recursion in your program?\n```",
                            expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
-                           feedback:'')
+                           feedback: '',
+                           test_results: [],
+                           response_type: :unstructured)
   end
 
 end
