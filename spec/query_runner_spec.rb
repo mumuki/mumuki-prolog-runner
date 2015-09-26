@@ -9,12 +9,12 @@ describe QueryRunner do
 
   context 'true predicate should out true.' do
     let(:request) { {query: 'true.'} }
-    it { expect(query_runner.run_query! ostruct_request).to eq(["true.\n", :passed]) }
+    it { expect(query_runner.run_query! ostruct_request).to eq(["yes.\n", :passed]) }
   end
 
   context 'fail predicate should out false.' do
     let(:request) { {query: 'fail.'} }
-    it { expect(query_runner.run_query! ostruct_request).to eq(["false.\n", :passed]) }
+    it { expect(query_runner.run_query! ostruct_request).to eq(["no.\n", :passed]) }
   end
 
   context 'between 1 and 3 should out X=1; X=2; X=3.' do

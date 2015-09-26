@@ -8,7 +8,7 @@ run_query(Query):-
 	prettyWriteResultSet(ResultSet).
 
 prettyWriteResultSet([]):-
-	writeln('false.').
+	writeln('no.').
 
 prettyWriteResultSet([OneResult]):-
 	prettyWriteOneResult(OneResult),
@@ -21,7 +21,7 @@ prettyWriteResultSet([OneResult | ResultSet]):-
 
 
 prettyWriteOneResult([]):-
-	write('true').
+	write('yes').
 
 prettyWriteOneResult([OneBinding]):-
 	writeBinding(OneBinding).
