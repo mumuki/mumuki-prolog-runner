@@ -39,5 +39,5 @@ writeBinding(OneBinding):-
 
 writeBinding(NotABinding):-
 	not(compound_name_arguments(NotABinding, (=), _)),
-	writef('ERROR: writeBinding/1: Expected Binding, but no equals was founded in: %w\n', [NotABinding]),
+	writef('ERROR: writeBinding/1: Expected Binding, but no equals was found in: %w\n', [NotABinding]),
 	halt.
