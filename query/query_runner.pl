@@ -15,6 +15,7 @@ prettyWriteResultSet([OneResult]):-
 	writeln('.').
 
 prettyWriteResultSet([OneResult | ResultSet]):-
+	ResultSet \= [],
 	prettyWriteOneResult(OneResult),
 	writeln(' ;'),
 	prettyWriteResultSet(ResultSet).
@@ -27,6 +28,7 @@ prettyWriteOneResult([OneBinding]):-
 	writeBinding(OneBinding).
 
 prettyWriteOneResult([OneBinding | OneResult]):-
+	OneResult \= [],
 	writeBinding(OneBinding),
 	writeln(','),
 	prettyWriteOneResult(OneResult).
@@ -36,5 +38,6 @@ writeBinding(OneBinding):-
 	writef('%w = %w', [VarName, Value]).
 
 writeBinding(NotABinding):-
+	not(compound_name_arguments(NotABinding, (=), _)),
 	writef('ERROR: writeBinding/1: Expected Binding, but no equals was founded in: %w\n', [NotABinding]),
 	halt.
