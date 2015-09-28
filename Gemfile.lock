@@ -1,9 +1,9 @@
 GIT
   remote: git://github.com/mumuki/mumukit-bridge.git
-  revision: 06671e523f106a72cb0c624f49f758dbc8fee86b
-  tag: v0.2.0
+  revision: 4c178dd71c6f38e93f2cfdca0db14226d777b6c3
+  tag: v0.3.0
   specs:
-    mumukit-bridge (0.2.0)
+    mumukit-bridge (0.3.0)
       activesupport
       rest-client
 
@@ -40,7 +40,7 @@ GEM
       domain_name (~> 0.5)
     i18n (0.7.0)
     json (1.8.3)
-    mime-types (2.6.1)
+    mime-types (2.6.2)
     minitest (5.7.0)
     netrc (0.10.3)
     rack (1.6.4)
