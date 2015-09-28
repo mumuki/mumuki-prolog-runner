@@ -34,10 +34,10 @@ prettyWriteOneResult([OneBinding | OneResult]):-
 	prettyWriteOneResult(OneResult).
 
 writeBinding(OneBinding):-
-	compound_name_arguments(OneBinding, (=), [VarName, Value]),
+	OneBinding=..[(=), VarName, Value],
 	writef('%w = %w', [VarName, Value]).
 
 writeBinding(NotABinding):-
-	not(compound_name_arguments(NotABinding, (=), _)),
+	not(NotABinding=..[(=) | _ ]),
 	writef('ERROR: writeBinding/1: Expected Binding, but no equals was found in: %w\n', [NotABinding]),
 	halt.
