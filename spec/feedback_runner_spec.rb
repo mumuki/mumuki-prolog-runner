@@ -5,7 +5,7 @@ describe FeedbackRunner do
 
   let(:server) { Mumukit::TestServer.new({'swipl_command' => 'swipl'}) }
 
-  let!(:feedback) { server.run!(request)[:feedback] }
+  let!(:feedback) { server.test!(request)[:feedback] }
 
   context 'when wrong distinct operator' do
     let(:request) { OpenStruct.new(

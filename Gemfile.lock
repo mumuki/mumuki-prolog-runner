@@ -16,10 +16,10 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: 851aede8dfccdfecca479628df8b9c856a696f5a
-  tag: v0.7.0
+  revision: 2a91d37768038607fbe03aeea95ee0e2841dc9c9
+  tag: v0.7.2
   specs:
-    mumukit (0.7.0)
+    mumukit (0.7.2)
       activesupport
       i18n (~> 0.7)
       sinatra (~> 1.4)
@@ -80,3 +80,6 @@ DEPENDENCIES
   mumukit-inspection!
   rake
   rspec (= 2.13)
+
+BUNDLED WITH
+   1.10.6
