@@ -4,8 +4,20 @@ main(Query,Filename):-
 	run_query(Query).
 
 run_query(Query):-
-	findall(Result, (atom_to_term(Query, Term, Result), Term), ResultSet),
+	catch(findall(Result, (atom_to_term(Query, Term, Result), Term), ResultSet),
+	error(TypeError,_),
+        (handleQueryError(TypeError, Query), halt(100)) ),
 	prettyWriteResultSet(ResultSet).
+
+handleQueryError(type_error(callable,_), Query):-
+	writef('ERROR: run_query/1: Expected Callable predicate but instead got %w\n', [Query]).
+
+handleQueryError(syntax_error(TypeSintaxError), Query):-
+	writef('ERROR: run_query/1: Sintax Error: %w in %w\n', [TypeSintaxError, Query]).
+
+handleQueryError(GeneralError, Query):-
+	writef('ERROR: run_query/1: %w in \'%w\'\n', [GeneralError, Query]).
+
 
 prettyWriteResultSet([]):-
 	writeln('no.').
@@ -34,10 +46,10 @@ prettyWriteOneResult([OneBinding | OneResult]):-
 	prettyWriteOneResult(OneResult).
 
 writeBinding(OneBinding):-
-	compound_name_arguments(OneBinding, (=), [VarName, Value]),
+	OneBinding=..[(=), VarName, Value],
 	writef('%w = %w', [VarName, Value]).
 
 writeBinding(NotABinding):-
-	not(compound_name_arguments(NotABinding, (=), _)),
+	not(NotABinding=..[(=) | _ ]),
 	writef('ERROR: writeBinding/1: Expected Binding, but no equals was found in: %w\n', [NotABinding]),
-	halt.
+	halt(101).

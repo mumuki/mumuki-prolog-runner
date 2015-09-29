@@ -68,4 +68,19 @@ describe 'runner' do
                            response_type: :unstructured)
   end
 
+  it 'answers a valid hash when query is ok' do
+    response = bridge.run_query!(extra: "crazyNumber(7).\ncrazyNumber(13).\ncrazyNumber(23).\ncrazyNumber(4).\ncrazyNumber(1).",
+                                 content: "fooNumber(Number):-\n  crazyNumber(Number),\n  Number > 6.",
+                                 query: 'fooNumber(N).')
+    expect(response).to eq(status: :passed, result: "N = 7 ;\nN = 13 ;\nN = 23.\n")
+  end
+
+  it 'answers a valid hash when query is not ok' do
+    response = bridge.
+        run_query!(extra: '',
+                   content: '',
+                   query: '4.')
+    expect(response[:status]).to eq(:failed)
+  end
+
 end
