@@ -83,4 +83,14 @@ describe 'runner' do
     expect(response[:status]).to eq(:failed)
   end
 
+  it 'status => aborted when using an infinite recursion' do
+    response = bridge.
+        run_query!(extra: '',
+                   content: 'recursive(A):-
+  recursive(A).',
+                   query: 'recursive(1).')
+    expect(response[:status]).to eq(:aborted)
+    expect(response[:result]).not_to eq('')
+  end
+
 end

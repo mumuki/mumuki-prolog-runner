@@ -15,9 +15,12 @@ handleQueryError(type_error(callable,_), Query):-
 handleQueryError(syntax_error(TypeSintaxError), Query):-
 	writef('ERROR: run_query/1: Sintax Error: %w in %w\n', [TypeSintaxError, Query]).
 
+handleQueryError(signal(_,Number), _):-
+	SignalStatus is 128 + Number,
+	halt(SignalStatus).
+
 handleQueryError(GeneralError, Query):-
 	writef('ERROR: run_query/1: %w in \'%w\'\n', [GeneralError, Query]).
-
 
 prettyWriteResultSet([]):-
 	writeln('no.').
