@@ -21,7 +21,7 @@ class Mumukit::Inspection::NegatedInspection
   end
 end
 
-class ExpectationsRunner
+class ExpectationsRunner < Mumukit::Hook
   include Mumukit
   include WithSwipl
 
