@@ -4,7 +4,7 @@ require_relative '../lib/query_runner'
 
 describe QueryRunner do
 
-  let(:query_runner) { QueryRunner.new({swipl_command: 'swipl'}) }
+  let(:query_runner) { QueryRunner.new({swipl_path: 'swipl'}) }
   let(:ostruct_request) { OpenStruct.new(request) }
 
   context 'true predicate should out true.' do
