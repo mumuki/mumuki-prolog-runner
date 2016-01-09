@@ -1,5 +1,3 @@
-require 'mumukit'
-
 class FeedbackRunner < Mumukit::Hook
   def run_feedback!(request, results)
     build_feedback request, results, [

@@ -1,7 +1,3 @@
-require 'mumukit'
-
-require_relative './with_swipl'
-
 class TestRunner < Mumukit::FileTestRunner
   include WithSwipl
 

@@ -1,5 +1,3 @@
-require 'mumukit'
-
 class TestCompiler < Mumukit::FileTestCompiler
   def compile(request)
     <<EOF

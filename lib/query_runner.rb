@@ -1,7 +1,3 @@
-require 'mumukit'
-
-require_relative './with_swipl'
-
 class QueryRunner < Mumukit::Hook
   include Mumukit::WithTempfile
   include Mumukit::WithCommandLine
