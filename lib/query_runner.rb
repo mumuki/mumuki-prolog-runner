@@ -1,7 +1,6 @@
 class QueryRunner < Mumukit::Hook
   include Mumukit::WithTempfile
   include Mumukit::WithCommandLine
-  include WithSwipl
 
   def run_query!(request)
     eval_query(request.query, compile_query(request))

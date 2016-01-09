@@ -3,8 +3,6 @@ I18n.load_path += Dir[File.join('.', 'locales', '*.yml')]
 
 require 'mumukit'
 
-require_relative 'with_swipl'
-
 require_relative 'test_runner'
 require_relative 'test_compiler'
 require_relative 'expectations_runner'

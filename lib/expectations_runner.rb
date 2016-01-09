@@ -22,7 +22,6 @@ end
 
 class ExpectationsRunner < Mumukit::Hook
   include Mumukit
-  include WithSwipl
 
   def run_expectations!(request)
     terms = expectations_to_terms(request.expectations)
