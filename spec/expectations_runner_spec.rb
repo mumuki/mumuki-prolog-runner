@@ -18,7 +18,7 @@ describe ExpectationsRunner do
     [{'binding' => 'foo', 'inspection' => 'Not:HasBinding'}, {'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
   }
 
-  let(:runner) { ExpectationsRunner.new('swipl_command' => 'swipl') }
+  let(:runner) { ExpectationsRunner.new('swipl_path' => 'swipl') }
 
   it { expect(runner.expectations_to_terms(expectations)).to eq "[expectation('foo',inspection('HasBinding'))]" }
   it { expect(runner.expectations_to_terms(expectations_with_not)).to eq "[expectation('bar',not(inspection('HasBinding')))]" }

@@ -1,6 +1,5 @@
 require 'json'
 
-require 'mumukit'
 require 'mumukit/inspection'
 
 class Mumukit::Inspection::PlainInspection
@@ -21,9 +20,8 @@ class Mumukit::Inspection::NegatedInspection
   end
 end
 
-class ExpectationsRunner
+class ExpectationsRunner < Mumukit::Hook
   include Mumukit
-  include WithSwipl
 
   def run_expectations!(request)
     terms = expectations_to_terms(request.expectations)

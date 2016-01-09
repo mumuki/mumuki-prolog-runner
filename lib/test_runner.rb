@@ -1,9 +1,5 @@
-require 'mumukit'
-
-require_relative './with_swipl'
-
 class TestRunner < Mumukit::FileTestRunner
-  include WithSwipl
+  include Mumukit::WithEmbeddedEnvironment
 
   def post_process_file(file, result, status)
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
@@ -15,8 +11,8 @@ class TestRunner < Mumukit::FileTestRunner
     end
   end
 
-  def run_test_command(file)
-    "#{swipl_path} -f #{file.path} --quiet -t run_tests 2>&1"
+  def run_test_command(filename)
+    "#{swipl_path} -f #{filename} --quiet -t run_tests 2>&1"
   end
 
   private

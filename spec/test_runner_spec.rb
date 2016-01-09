@@ -1,12 +1,12 @@
 require_relative 'spec_helper'
 
 describe TestRunner do
-  let(:runner) { TestRunner.new({'swipl_command' => 'swipl'}) }
+  let(:runner) { TestRunner.new({'swipl_path' => 'swipl'}) }
   let(:file) { OpenStruct.new(path: '/tmp/foo.pl') }
 
   describe '#run_test_command' do
-    it { expect(runner.run_test_command(file)).to include('swipl -f /tmp/foo.pl --quiet -t run_tests') }
-    it { expect(runner.run_test_command(file)).to include('2>&1') }
+    it { expect(runner.run_test_command(file.path)).to include('swipl -f /tmp/foo.pl --quiet -t run_tests') }
+    it { expect(runner.run_test_command(file.path)).to include('2>&1') }
   end
 
   describe '#validate_compile_errors' do
