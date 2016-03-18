@@ -1,0 +1,57 @@
+class QueryHook < Mumukit::Templates::FileHook
+  isolated true
+
+  def command_line(filename)
+    "#{swipl_path} -f #{filename} --quiet -t main 2>&1"
+  end
+
+  def compile_file_content(req)
+    <<PROLOG
+#{req.extra}
+#{req.content}
+
+main(_):-
+  run_query('#{req.query}').
+
+run_query(Query):-
+    catch(findall(Result, (atom_to_term(Query, Term, Result), Term), ResultSet),
+      error(TypeError,_),
+      (handleQueryError(TypeError, Query), halt(100)) ),
+    prettyWriteResultSet(ResultSet).
+
+handleQueryError(type_error(callable,_), Query):-
+  writef('ERROR: run_query/1: Expected Callable predicate but instead got %w\n', [Query]).
+
+handleQueryError(syntax_error(TypeSintaxError), Query):-
+  writef('ERROR: run_query/1: Sintax Error: %w in %w\n', [TypeSintaxError, Query]).
+
+handleQueryError(signal(_,Number), _):-
+  SignalStatus is 128 + Number,
+  halt(SignalStatus).
+
+handleQueryError(GeneralError, Query):-
+  writef('ERROR: run_query/1: %w in \'%w\'\n', [GeneralError, Query]).
+
+prettyWriteResultSet([]):-
+  writeln('no.').
+
+prettyWriteResultSet([OneResult]):-
+  prettyWriteOneResult(OneResult),
+  writeln('.').
+
+prettyWriteResultSet([OneResult | ResultSet]):-
+  ResultSet \= [],
+  prettyWriteOneResult(OneResult),
+  writeln(' ;'),
+  prettyWriteResultSet(ResultSet).
+PROLOG
+  end
+
+end
+
+
+
+
+
+
+

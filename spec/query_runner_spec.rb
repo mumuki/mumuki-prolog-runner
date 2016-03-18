@@ -1,10 +1,10 @@
 require_relative 'spec_helper'
 require 'ostruct'
-require_relative '../lib/query_runner'
+require_relative '../lib/query_hook'
 
-describe QueryRunner do
+describe QueryHook do
 
-  let(:query_runner) { QueryRunner.new({swipl_path: 'swipl'}) }
+  let(:query_runner) { QueryHook.new({swipl_path: 'swipl'}) }
   let(:ostruct_request) { OpenStruct.new(request) }
 
   context 'true predicate should out true.' do

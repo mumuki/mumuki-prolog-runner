@@ -1,5 +1,5 @@
-class TestRunner < Mumukit::FileTestRunner
-  include Mumukit::WithEmbeddedEnvironment
+class TestHook < Mumukit::Templates::FileHook
+  isolated true
 
   def post_process_file(file, result, status)
     if /ERROR: #{file.path}:.*: Syntax error: .*/ =~ result
@@ -15,9 +15,17 @@ class TestRunner < Mumukit::FileTestRunner
     "#{swipl_path} -f #{filename} --quiet -t run_tests 2>&1"
   end
 
-  private
-
   def format_code(code)
     "```\n#{code}\n```"
+  end
+
+  def compile_file_content(request)
+    <<EOF
+:- begin_tests(mumuki_submission_test, []).
+#{request.test}
+#{request.content}
+#{request.extra}
+:- end_tests(mumuki_submission_test).
+EOF
   end
 end
