@@ -1,5 +1,5 @@
 class FeedbackHook < Mumukit::Hook
-  def run_feedback!(request, results)
+  def run!(request, results)
     build_feedback request, results, [
         :missing_predicate,
         :operator_error,
