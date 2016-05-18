@@ -11,7 +11,7 @@ class TestHook < Mumukit::Templates::FileHook
     end
   end
 
-  def run_test_command(filename)
+  def command_line(filename)
     "#{swipl_path} -f #{filename} --quiet -t run_tests 2>&1"
   end
 

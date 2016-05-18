@@ -7,9 +7,9 @@ end
 describe FeedbackHook do
   before { I18n.locale = :es }
 
-  let(:server) { Mumukit::TestServer.new({'swipl_path' => 'swipl'}) }
-
-  let!(:feedback) { server.test!(request)[:feedback] }
+  let(:server) { TestHook.new({'swipl_path' => 'swipl'}) }
+  let!(:test_results) { server.run!(server.compile(request)) }
+  let(:feedback) { FeedbackHook.new.run_feedback!(request, OpenStruct.new(test_results:test_results)) }
 
   context 'when wrong distinct operator' do
     let(:request) { req('foo(X) :- X != 2') }
