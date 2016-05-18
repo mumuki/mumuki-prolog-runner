@@ -22,13 +22,6 @@ EOT
 
   describe '#compile' do
     let(:compiler) { TestHook.new(nil) }
-    it { expect(compiler.compile(req(true_test, 'foo(_).',  ''))).to eq(compiled_test_submission) }
-  end
-
-  describe '#create_compilation_file!' do
-    let(:compiler) { TestHook.new(nil) }
-    let(:file) { compiler.create_compilation!(req('bar.', 'extra', 'foo.')) }
-
-    it { expect(File.exists? file.path).to be true }
+    it { expect(compiler.compile_file_content(req(true_test, 'foo(_).',  ''))).to eq(compiled_test_submission) }
   end
 end
