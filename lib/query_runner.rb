@@ -3,11 +3,15 @@ class QueryRunner < Mumukit::Hook
   include Mumukit::WithCommandLine
 
   def run_query!(request)
-    eval_query(request.query, compile_query(request))
+    eval_query(atom_escape(request.query), compile_query(request))
   end
 
   def compile_query(request)
     "#{request.extra}\n#{request.content}"
+  end
+
+  def atom_escape(string)
+    string.gsub('\\', '\\' * 9)
   end
 
   def eval_query(query, source)
