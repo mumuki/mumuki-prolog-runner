@@ -31,7 +31,7 @@ class ExpectationsHook < Mumukit::Templates::FileHook
   end
 
   def post_process_file(file, result, status)
-    JSON.parse(result)['expectationResults']
+    JSON.parse(result)['expectationResults'] rescue []
   end
 end
 
