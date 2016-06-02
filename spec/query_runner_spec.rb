@@ -19,7 +19,7 @@ describe QueryHook do
   end
 
   context '7 \= 9 predicate should out true.' do
-    let(:request) { OpenStruct.new(query: '7 \= 9.') }
+    let(:request) { OpenStruct.new(query: '7 \\= 9.') }
     it { expect(result).to eq ["yes.\n", :passed] }
   end
 
