@@ -13,14 +13,19 @@ describe QueryHook do
     it { expect(result).to eq ["yes.\n", :passed] }
   end
 
-  context '4 == 4 predicate should out true.' do
-    let(:request) { {query: '4 == 4.'} }
-    it { expect(query_runner.run_query! ostruct_request).to eq(["yes.\n", :passed]) }
+  context '7 > 5 predicate should out true.' do
+    let(:request) { OpenStruct.new(query: '7 > 5.') }
+    it { expect(result).to eq ["yes.\n", :passed] }
   end
 
-  context '\= predicate should out true.' do
-    let(:request) { {query: '4 \= 5.'} }
-    it { expect(query_runner.run_query! ostruct_request).to eq(["yes.\n", :passed]) }
+  context '7 \= 9 predicate should out true.' do
+    let(:request) { OpenStruct.new(query: '7 \= 9.') }
+    it { expect(result).to eq ["yes.\n", :passed] }
+  end
+
+  context '9 is 3 * 3 predicate should out true.' do
+    let(:request) { OpenStruct.new(query: '9 is 3 * 3.') }
+    it { expect(result).to eq ["yes.\n", :passed] }
   end
 
   context 'fail predicate should out false.' do
