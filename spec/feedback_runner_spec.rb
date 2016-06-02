@@ -20,6 +20,14 @@ describe FeedbackHook do
 * Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`") }
   end
 
+  context 'when missing final dot' do
+    let(:request) { req('foo(X) :- X > 2') }
+
+    it {
+      expect(feedback).to eq(
+                              '* Cuidado, tenés errores de sintaxis. ¿Puede ser que te hayas olvidado algún punto final?') }
+  end
+
   context 'when wrong <= operator' do
     let(:request) { req('foo(X) :- X <= 2') }
 
@@ -78,8 +86,8 @@ foo(2).') }
   end
 
 
-  context 'when missing predicate tested' do
-    let(:request) { req('foo(2) :- bar(X)', 'test(foo) :- foo(2).') }
+  context 'when all is ok' do
+    let(:request) { req("bar(2).\nfoo(X) :- bar(X).", 'test(foo) :- foo(2).') }
 
     it { expect(feedback).to be_blank }
   end

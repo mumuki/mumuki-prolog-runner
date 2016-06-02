@@ -5,6 +5,7 @@ class FeedbackHook < Mumukit::Hook
         :operator_error,
         :clauses_not_together,
         :singleton_variables,
+        :missing_dot_error,
         :wrong_distinct_operator,
         :wrong_gte_operator,
         :wrong_lte_operator,
@@ -88,6 +89,10 @@ class FeedbackHook < Mumukit::Hook
 
   def operator_error(_, test_results)
     /ERROR: (.*): Syntax error: Operator expected/ =~ test_results
+  end
+
+  def missing_dot_error(_, test_results)
+    /ERROR: (.*): Syntax error: Operator priority clash/ =~ test_results
   end
 
 
