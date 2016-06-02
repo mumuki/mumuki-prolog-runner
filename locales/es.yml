@@ -1,6 +1,8 @@
 es:
   time_exceeded: 'Tiempo excedido: test abortado. ¿Puede que tengas algun predicado con recursion inifinta?'
   wrong_distinct_operator: 'Revisá esta parte: `...%{near}...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\=`'
+  wrong_gte_operator: 'Revisá esta parte: `...%{near}...`. Recordá que el predicado infijo mayor o igual en prolog se escribe así: `>=`'
+  wrong_lte_operator: 'Revisá esta parte: `...%{near}...`. Recordá que el predicado infijo menor o igual en prolog se escribe así: `=<`'
   clauses_not_together: 'Revisá el predicado `%{target}`. Recordá que es una buena práctica escribir toda las cláusulas de un mismo predicado juntas'
   singleton_variables: "Tenés variables `%{target}` sin usar"
   test_failed: "Tu código no pasó nuestras pruebas. Revisá si hiciste lo que pide el enunciado, y si **respetaste el orden de los parámetros** en los predicados solicitados"

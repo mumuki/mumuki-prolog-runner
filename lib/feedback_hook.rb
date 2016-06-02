@@ -6,6 +6,8 @@ class FeedbackHook < Mumukit::Hook
         :clauses_not_together,
         :singleton_variables,
         :wrong_distinct_operator,
+        :wrong_gte_operator,
+        :wrong_lte_operator,
         :wrong_comma,
         :not_sufficiently_instantiated,
         :test_failed]
@@ -48,6 +50,19 @@ class FeedbackHook < Mumukit::Hook
       {near: it[0]}
     end
   end
+
+  def wrong_gte_operator(content, _)
+    (/.{0,9}(=>).{0,9}/.match content).try do |it|
+      {near: it[0]}
+    end
+  end
+
+  def wrong_lte_operator(content, _)
+    (/.{0,9}(<=).{0,9}/.match content).try do |it|
+      {near: it[0]}
+    end
+  end
+
 
   def clauses_not_together(_, test_results)
     (/Clauses of .*:(.*) are not together in the source-file/.match test_results).try do |it|

@@ -20,6 +20,25 @@ describe FeedbackHook do
 * Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`") }
   end
 
+  context 'when wrong <= operator' do
+    let(:request) { req('foo(X) :- X <= 2') }
+
+    it {
+      expect(feedback).to eq(
+                              "* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito
+* Revisá esta parte: `...(X) :- X <= 2...`. Recordá que el predicado infijo menor o igual en prolog se escribe así: `=<`") }
+  end
+
+  context 'when wrong => operator' do
+    let(:request) { req('foo(X) :- X => 2') }
+
+    it {
+      expect(feedback).to eq(
+                              "* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito
+* Revisá esta parte: `...(X) :- X => 2...`. Recordá que el predicado infijo mayor o igual en prolog se escribe así: `>=`") }
+  end
+
+
   context 'when clauses not together' do
     let(:request) { req('
 foo(X) :- bar(X).
