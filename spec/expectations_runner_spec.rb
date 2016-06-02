@@ -39,13 +39,4 @@ describe ExpectationsHook do
       [ { 'expectation' => multiple_expectations[0], 'result' => true },
         { 'expectation' => multiple_expectations[1], 'result' => false }]) }
 
-  Dir['expectations/test/*_tests.pl'].each do |test|
-    it "Prolog test #{test} pass" do
-      out = %x{swipl -f #{test} --quiet -t run_tests 2>&1}
-      puts out
-      expect($?.success?).to be true
-    end
-  end
-
-
 end
