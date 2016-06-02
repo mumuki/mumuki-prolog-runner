@@ -11,7 +11,7 @@ class QueryHook < Mumukit::Templates::FileHook
 #{req.content}
 
 main(_):-
-  run_query('#{req.query}').
+  run_query('#{req.query.gsub('\\', '\\\\\\')}').
 
 run_query(Query):-
     catch(findall(Result, (atom_to_term(Query, Term, Result), Term), ResultSet),
@@ -40,7 +40,7 @@ prettyWriteResultSet([OneResult]):-
   writeln('.').
 
 prettyWriteResultSet([OneResult | ResultSet]):-
-  ResultSet \= [],
+  ResultSet \\= [],
   prettyWriteOneResult(OneResult),
   writeln(' ;'),
   prettyWriteResultSet(ResultSet).
@@ -52,7 +52,7 @@ prettyWriteOneResult([OneBinding]):-
        writeBinding(OneBinding).
 
 prettyWriteOneResult([OneBinding | OneResult]):-
-       OneResult \= [],
+       OneResult \\= [],
        writeBinding(OneBinding),
        writeln(','),
        prettyWriteOneResult(OneResult).
@@ -63,7 +63,7 @@ writeBinding(OneBinding):-
 
 writeBinding(NotABinding):-
        not(NotABinding=..[(=) | _ ]),
-       writef('ERROR: writeBinding/1: Expected Binding, but no equals was found in: %w\n', [NotABinding]),
+       writef('ERROR: writeBinding/1: Expected Binding, but no equals was found in: %w\\n', [NotABinding]),
        halt(101).
 
 PROLOG
