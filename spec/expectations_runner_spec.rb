@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe ExpectationsRunner do
+describe ExpectationsHook do
   def req(expectations, content)
     OpenStruct.new(expectations:expectations, content:content)
   end
@@ -18,20 +18,20 @@ describe ExpectationsRunner do
     [{'binding' => 'foo', 'inspection' => 'Not:HasBinding'}, {'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
   }
 
-  let(:runner) { ExpectationsRunner.new('swipl_path' => 'swipl') }
+  let(:runner) { ExpectationsHook.new('swipl_path' => 'swipl') }
 
   it { expect(runner.expectations_to_terms(expectations)).to eq "[expectation('foo',inspection('HasBinding'))]" }
   it { expect(runner.expectations_to_terms(expectations_with_not)).to eq "[expectation('bar',not(inspection('HasBinding')))]" }
   it { expect(runner.expectations_to_terms(expectations_with_usage)).to eq "[expectation('foo',inspection('HasUsage','bar'))]" }
   it { expect(runner.expectations_to_terms(multiple_expectations)).to eq "[expectation('foo',not(inspection('HasBinding'))),expectation('foo',inspection('HasUsage','bar'))]" }
 
-  it { expect(runner.run_expectations!(req(expectations, 'foo(2).'))).to eq(
+  it { expect(runner.run!(req(expectations, 'foo(2).'))).to eq(
       [ { 'expectation' => expectations[0],'result' => true }]) }
 
-  it { expect(runner.run_expectations!(req(expectations, 'bar(2).'))).to eq(
+  it { expect(runner.run!(req(expectations, 'bar(2).'))).to eq(
       [ { 'expectation' => expectations[0], 'result' => false }]) }
 
-  it { expect(runner.run_expectations!(req(multiple_expectations, 'bar(2).'))).to eq(
+  it { expect(runner.run!(req(multiple_expectations, 'bar(2).'))).to eq(
       [ { 'expectation' => multiple_expectations[0], 'result' => true },
         { 'expectation' => multiple_expectations[1], 'result' => false }]) }
 

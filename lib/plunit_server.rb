@@ -11,6 +11,7 @@ end
 
 require_relative 'test_hook'
 require_relative 'query_hook'
+require_relative 'expectations_hook'
 require_relative 'metadata_hook'
 require_relative 'feedback_hook'
 

@@ -20,10 +20,10 @@ class Mumukit::Inspection::NegatedInspection
   end
 end
 
-class ExpectationsRunner < Mumukit::Hook
+class ExpectationsHook < Mumukit::Hook
   include Mumukit
 
-  def run_expectations!(request)
+  def run!(request)
     terms = expectations_to_terms(request.expectations)
 
     file = Tempfile.new('mumuki.expectations')
