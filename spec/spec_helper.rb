@@ -1,3 +1,3 @@
-require_relative '../lib/plunit'
+require_relative '../lib/plunit_server'
 
 

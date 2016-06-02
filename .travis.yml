@@ -1,15 +1,9 @@
 language: ruby
 env: RACK_ENV=development
+sudo: false
 rvm:
 - 2.0.0
-before_script:
-- sudo apt-add-repository ppa:swi-prolog/stable -y
-- sudo apt-get update -q
-- sudo apt-get install swi-prolog
-deploy:
-  provider: heroku
-  api_key:
-    secure: LiAzU8gPVnw1ZhLWvdzA9zWrAe2qReMGJix6T20XLeORY1FsQhwtU9tqkwVUx20UZat4qdQnvgTUlVOuZaHwGhAY8cb6nbVjPlP55kPXVlIf7lA9GQv9Clux8RPVrOv24N1uuNnr42o/xGcanTHOO7I4pYcKxsw2P+pq4Gp+ylA=
-  app: mumuki-plunit-server
-  on:
-    repo: mumuki/mumuki-plunit-server
+services:
+- docker
+before_install:
+- docker pull mumuki/mumuki-plunit-worker

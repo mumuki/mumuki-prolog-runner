@@ -1,0 +1,107 @@
+run_expectations(Expectations, Results) :-
+  maplist(run_expectation, Expectations, Results).
+
+run_expectation(Expectation, result(Expectation, Result)) :- eval_expectation(Expectation,Result).
+
+eval_expectation(expectation(Binding, Inspection), true) :-
+  call_expectation(Binding, Inspection), !.
+eval_expectation(_, false).
+
+call_expectation(Binding, inspection('HasBinding')) :-
+  usesPredicate(pred(Binding, _), _).
+call_expectation(Binding, inspection('HasForall')) :-
+  hasForall(pred(Binding, _)).
+call_expectation(Binding, inspection('HasFindall')) :-
+  hasFindall(pred(Binding, _)).
+call_expectation(Binding, inspection('HasNot')) :-
+  hasNot(pred(Binding, _)).
+call_expectation(Binding, inspection('HasUsage', Other)) :-
+   usesPredicate(pred(Binding, _), pred(Other, _)).
+call_expectation(Binding, inspection('HasDirectRecursion')) :-
+   recursive(pred(Binding, _)).
+call_expectation(Binding, inspection('HasArity', Arity)) :-
+  usesPredicate(pred(Binding, Arity), _).
+call_expectation(Binding, not(Inspection)) :-
+   \+ call_expectation(Binding, Inspection).
+call_expectation(Binding, inspection('HasCut')) :-
+  hasCut(pred(Binding, _)).
+
+<%= @content %>
+
+predToHead(pred(PredicateName, Arity), Head) :-
+  between(0, 9, Arity),
+  functor(Head, PredicateName, Arity).
+
+clauseElements(Predicate, Elements):-
+	predToHead(Predicate, Head),
+	clause(Head, Clause),
+	clauseToList(Clause, Elements).
+
+clauseToList((A,B), [A | BToList]):- clauseToList(B, BToList).
+clauseToList(A, [A]):- functor(A,Name,_), Name \= (',').
+
+usesPredicate(Predicate, UsedPredicate):-
+	clauseElements(Predicate, Elements),
+	member(ClauseElement, Elements),
+	isOrContains(ClauseElement, UsedPredicate).
+
+isOrContains(ClauseElement, Predicate):- predToHead(Predicate, ClauseElement).
+isOrContains(ClauseElement, Predicate):-
+	ClauseElement =.. [_|Args],
+	member(Arg, Args),
+	not(var(Arg)),
+	isOrContains(Arg, Predicate).
+
+%%	This would require a parametrized expectation
+numberOfClauses(Predicate, Amount):-
+	predToHead(Predicate, Head),
+	findall(_,clause(Head,_), Clauses),
+	length(Clauses, Amount).
+
+recursive(Predicate):-
+	usesPredicate(Predicate, Predicate).
+
+hasForall(Predicate):-
+	usesPredicate(Predicate, pred(forall,2)).
+
+hasNot(Predicate):-
+	usesPredicate(Predicate, pred(not,1)).
+
+hasFindall(Predicate):-
+	usesPredicate(Predicate, pred(findall,3)).
+
+hasCut(Predicate):-
+	usesPredicate(Predicate, pred(!,0)).
+
+
+main(_) :-
+  Expectations = <%= @expectation_terms %>,
+  run_expectations(Expectations, Results),
+  write_json(Results).
+
+write_json(Results) :-
+  write('{"expectationResults":['),
+  write_results(Results),
+  write(']}').
+
+write_results([]).
+write_results([X1]) :-
+  write_result(X1).
+write_results([X1,X2|Xs]) :-
+  write_result(X1),
+  write(','),
+  write_results([X2|Xs]).
+
+write_result(result(expectation(Binding, Inspection), Result)) :-
+  swrite_inspection(Inspection, SInspection),
+  writef('{"expectation":{"binding":"%w", "inspection":"%w"},"result":%w}',
+    [Binding, SInspection, Result]).
+
+swrite_inspection(inspection(X), S) :-
+  swritef(S, "%w", [X]).
+swrite_inspection(inspection(X, Y), S) :-
+  swritef(S, "%w:%w", [X, Y]).
+swrite_inspection(not(Inspection), S2) :-
+  swrite_inspection(Inspection, S1),
+  swritef(S2, "Not:%w", [S1]).
+

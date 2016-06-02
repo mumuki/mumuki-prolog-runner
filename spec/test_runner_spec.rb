@@ -1,13 +1,8 @@
 require_relative 'spec_helper'
 
-describe TestRunner do
-  let(:runner) { TestRunner.new({'swipl_path' => 'swipl'}) }
+describe TestHook do
+  let(:runner) { TestHook.new({'swipl_path' => 'swipl'}) }
   let(:file) { OpenStruct.new(path: '/tmp/foo.pl') }
-
-  describe '#run_test_command' do
-    it { expect(runner.run_test_command(file.path)).to include('swipl -f /tmp/foo.pl --quiet -t run_tests') }
-    it { expect(runner.run_test_command(file.path)).to include('2>&1') }
-  end
 
   describe '#validate_compile_errors' do
     let(:results) { runner.post_process_file(file, *original_results) }
