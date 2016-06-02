@@ -11,7 +11,7 @@ class QueryHook < Mumukit::Templates::FileHook
 #{req.content}
 
 main(_):-
-  run_query('#{req.query.gsub('\\', '\\\\\\')}').
+  run_query('#{req.query.gsub('\\', '\\' * 3 )}').
 
 run_query(Query):-
     catch(findall(Result, (atom_to_term(Query, Term, Result), Term), ResultSet),

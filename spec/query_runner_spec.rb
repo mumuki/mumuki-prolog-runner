@@ -34,7 +34,7 @@ describe QueryHook do
   end
 
   context 'between 1 and 3 should out X=1; X=2; X=3.' do
-    let(:request) { OpenStruct.new(query: 'between(1,3,X).') }
+    let(:request) { OpenStruct.new(query: 'between(1,3,X)') }
     it { expect(result).to eq ["X = 1 ;\nX = 2 ;\nX = 3.\n", :passed] }
   end
 

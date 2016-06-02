@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'mumukit/bridge'
 
 describe 'runner' do
@@ -60,8 +61,8 @@ describe 'runner' do
                    content: 'foo(2) :- foo(2).',
                    expectations: [{inspection: 'HasBinding', binding: 'foo'}])
 
-    expect(response).to eq(status: :failed,
-                           result: "```\nTimeout: test aborted. Do you have an infinite recursion in your program?\n```",
+    expect(response).to eq(status: :aborted,
+                           result: "```\nExecution time limit of 4s exceeded. Is your program performing an infinite loop or recursion?\n```",
                            expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
                            feedback: '',
                            test_results: [],
