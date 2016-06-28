@@ -1,5 +1,9 @@
 language: ruby
-env: RACK_ENV=development
+env:
+  matrix:
+  - RACK_ENV=development
+  global:
+    secure: C6zM58GAm30PDuH1mbcdc0ne4um3PziC2nP7Iq8jBjXrlaot2G7awmgVVZYgDGeRL/kKaMXnUX83undLhXJJggwGrZTX5oexVFnrgbeOIRUG4GR4HNcNumVSHbQD0NWHt97vtr/S8X4/vy5t58bwTZiiQWormzC1EXVZ4H+IMlM=
 sudo: false
 rvm:
 - 2.0.0
