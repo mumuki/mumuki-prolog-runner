@@ -4,12 +4,12 @@ def req(content, test='test(foo) :- true.')
   OpenStruct.new(content: content, test: test)
 end
 
-describe FeedbackHook do
+describe PrologFeedbackHook do
   before { I18n.locale = :es }
 
-  let(:server) { TestHook.new({'swipl_path' => 'swipl'}) }
+  let(:server) { PrologTestHook.new }
   let!(:test_results) { server.run!(server.compile(request)) }
-  let(:feedback) { FeedbackHook.new.run!(request, OpenStruct.new(test_results:test_results)) }
+  let(:feedback) { PrologFeedbackHook.new.run!(request, OpenStruct.new(test_results:test_results)) }
 
   context 'when wrong distinct operator' do
     let(:request) { req('foo(X) :- X != 2') }

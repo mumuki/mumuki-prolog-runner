@@ -2,9 +2,9 @@ require_relative 'spec_helper'
 require 'ostruct'
 require_relative '../lib/query_hook'
 
-describe QueryHook do
+describe PrologQueryHook do
 
-  let(:hook) { QueryHook.new(swipl_path: 'swipl') }
+  let(:hook) { PrologQueryHook.new }
   let(:file) { hook.compile(request) }
   let(:result) { hook.run!(file) }
 

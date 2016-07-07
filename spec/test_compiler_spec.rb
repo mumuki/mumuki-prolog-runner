@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe TestHook do
+describe PrologTestHook do
   def req(test, extra, content)
     OpenStruct.new(test:test, extra:extra, content: content)
   end
@@ -21,7 +21,7 @@ foo(_).
 EOT
 
   describe '#compile' do
-    let(:compiler) { TestHook.new(nil) }
+    let(:compiler) { PrologTestHook.new(nil) }
     it { expect(compiler.compile_file_content(req(true_test, 'foo(_).',  ''))).to eq(compiled_test_submission) }
   end
 end

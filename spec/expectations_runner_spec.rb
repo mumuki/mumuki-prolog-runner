@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe ExpectationsHook do
+describe PrologExpectationsHook do
   def req(expectations, content)
     OpenStruct.new(expectations:expectations, content:content)
   end
@@ -18,7 +18,7 @@ describe ExpectationsHook do
     [{'binding' => 'foo', 'inspection' => 'Not:HasBinding'}, {'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
   }
 
-  let(:runner) { ExpectationsHook.new('swipl_path' => 'swipl') }
+  let(:runner) { PrologExpectationsHook.new }
 
   def compile_and_run(runner, request)
     runner.run!(runner.compile(request))

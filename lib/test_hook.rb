@@ -1,4 +1,4 @@
-class TestHook < Mumukit::Templates::FileHook
+class PrologTestHook < Mumukit::Templates::FileHook
   isolated true
 
   def post_process_file(file, result, status)
@@ -12,7 +12,7 @@ class TestHook < Mumukit::Templates::FileHook
   end
 
   def command_line(filename)
-    "#{swipl_path} -f #{filename} --quiet -t run_tests 2>&1"
+    "swipl -f #{filename} --quiet -t run_tests 2>&1"
   end
 
   def format_code(code)

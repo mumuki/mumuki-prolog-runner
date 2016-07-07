@@ -1,3 +1,3 @@
-require_relative 'lib/plunit_server'
+require_relative 'lib/prolog_sever'
 
 run Mumukit::Server::App

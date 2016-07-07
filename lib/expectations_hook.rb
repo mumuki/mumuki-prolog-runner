@@ -19,11 +19,11 @@ class Mumukit::Inspection::NegatedInspection
   end
 end
 
-class ExpectationsHook < Mumukit::Templates::FileHook
+class PrologExpectationsHook < Mumukit::Templates::FileHook
   isolated true
 
   def command_line(filename)
-    "#{swipl_path} -f #{filename} --quiet -t main 2>&1"
+    "swipl -f #{filename} --quiet -t main 2>&1"
   end
 
   def compile_file_content(request)

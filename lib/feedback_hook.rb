@@ -1,4 +1,4 @@
-class FeedbackHook < Mumukit::Hook
+class PrologFeedbackHook < Mumukit::Hook
   def run!(request, results)
     build_feedback request, results, [
         :missing_predicate,
