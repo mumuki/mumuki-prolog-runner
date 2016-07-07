@@ -1,8 +1,8 @@
-class QueryHook < Mumukit::Templates::FileHook
+class PrologQueryHook < Mumukit::Templates::FileHook
   isolated true
 
   def command_line(filename)
-    "#{swipl_path} -f #{filename} --quiet -t main 2>&1"
+    "swipl -f #{filename} --quiet -t main 2>&1"
   end
 
   def compile_file_content(req)

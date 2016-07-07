@@ -1,4 +1,4 @@
-class MetadataHook < Mumukit::Hook
+class PrologMetadataHook < Mumukit::Hook
   def metadata
     {language: {
         name: 'prolog',

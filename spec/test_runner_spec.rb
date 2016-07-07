@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
-describe TestHook do
-  let(:runner) { TestHook.new({'swipl_path' => 'swipl'}) }
+describe PrologTestHook do
+  let(:runner) { PrologTestHook.new }
   let(:file) { OpenStruct.new(path: '/tmp/foo.pl') }
 
   describe '#validate_compile_errors' do

@@ -4,9 +4,9 @@ I18n.load_path += Dir[File.join('.', 'locales', '*.yml')]
 
 require 'mumukit'
 
+Mumukit.runner_name = 'prolog'
 Mumukit.configure do |config|
   config.docker_image = 'mumuki/mumuki-plunit-worker'
-  config.runner_name = 'plunit-server'
 end
 
 require_relative 'test_hook'
