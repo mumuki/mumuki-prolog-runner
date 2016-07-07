@@ -27,12 +27,13 @@ GIT
 
 GIT
   remote: git://github.com/mumuki/mumukit.git
-  revision: 973d46485140cfb007eeef6921b04ff71048d054
-  branch: feature-namespaced-runner
+  revision: e5a620b548579cf827b0de7dd01fae8985e43a6e
+  tag: v2.0.0
   specs:
-    mumukit (1.2.0)
+    mumukit (2.0.0)
       activesupport
       docker-api (~> 1.22.2)
+      excon (= 0.45.4)
       i18n (~> 0.7)
       puma
       sinatra (~> 1.4)
@@ -134,7 +135,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  excon (= 0.45.4)
   mumukit!
   mumukit-bridge!
   mumukit-content-type!
