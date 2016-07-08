@@ -10,6 +10,12 @@ describe 'runner' do
   end
   after(:all) { Process.kill 'TERM', @pid }
 
+  it 'answers a valid hash on /info' do
+    response = bridge.info
+
+    expect(response).to include({"name" => "prolog"})
+  end
+
   it 'answers a valid hash when submission is ok' do
     response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
                                  extra: '',
@@ -34,7 +40,7 @@ describe 'runner' do
                            result: "```\n.\n\n```",
                            expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
                            test_results: [],
-                           feedback:'',
+                           feedback: '',
                            response_type: :unstructured)
   end
 
