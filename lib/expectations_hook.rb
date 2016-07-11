@@ -52,6 +52,12 @@ class ExpectationsFile
   end
 
   def render
-    ERB.new(File.read('lib/main.pl.erb')).result(binding)
+    ERB.new(File.read(template_path)).result(binding)
+  end
+
+  private
+
+  def template_path
+    File.expand_path '../main.pl.erb', __FILE__
   end
 end
