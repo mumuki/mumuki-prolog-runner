@@ -1,3 +1,3 @@
-require_relative 'lib/prolog_sever'
+require_relative 'lib/prolog_server'
 
 run Mumukit::Server::App
