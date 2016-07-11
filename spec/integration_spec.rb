@@ -13,7 +13,7 @@ describe 'runner' do
   it 'answers a valid hash on /info' do
     response = bridge.info
 
-    expect(response).to include({"name" => "prolog"})
+    expect(response).to include("name" => "prolog")
   end
 
   it 'answers a valid hash when submission is ok' do
