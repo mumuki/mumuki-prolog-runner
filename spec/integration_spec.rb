@@ -2,13 +2,19 @@ require 'spec_helper'
 require 'mumukit/bridge'
 
 describe 'runner' do
-  let(:bridge) { Mumukit::Bridge::Bridge.new('http://localhost:4567') }
+  let(:bridge) { Mumukit::Bridge::Runner.new('http://localhost:4567') }
 
   before(:all) do
     @pid = Process.spawn 'rackup -p 4567', err: '/dev/null'
     sleep 3
   end
   after(:all) { Process.kill 'TERM', @pid }
+
+  it 'answers a valid hash on /info' do
+    response = bridge.info
+
+    expect(response).to include({"name" => "prolog"})
+  end
 
   it 'answers a valid hash when submission is ok' do
     response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
@@ -34,7 +40,7 @@ describe 'runner' do
                            result: "```\n.\n\n```",
                            expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
                            test_results: [],
-                           feedback:'',
+                           feedback: '',
                            response_type: :unstructured)
   end
 
