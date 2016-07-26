@@ -7,6 +7,7 @@ require 'mumukit'
 Mumukit.runner_name = 'prolog'
 Mumukit.configure do |config|
   config.docker_image = 'mumuki/mumuki-plunit-worker'
+  config.content_type = 'markdown'
 end
 
 require_relative 'test_hook'
