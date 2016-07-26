@@ -5,7 +5,8 @@ class PrologMetadataHook < Mumukit::Hook
         icon: {type: 'devicon', name: 'prolog'},
         version: 'swi-prolog 6.6.4',
         extension: 'pl',
-        ace_mode: 'prolog'
+        ace_mode: 'prolog',
+        prompt: '?'
     },
      test_framework: {
          name: 'plunit',
