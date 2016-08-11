@@ -2,18 +2,10 @@ language: ruby
 env:
   matrix:
   - RACK_ENV=development
-  global:
-    secure: SfAiOJKDtq/2hAqf1kizP6+8O+a20OBeYSy0S26uRplU2r15wxcQ35aSx0Cv3QwYAvbjBxqRAJSzofK3rXyHDOz9S3itRiF4iiYVE+JLMsdKvsdYurQJGIU/9diaXeweig3PHEdOl34skBsLNqC7/jN0BEkWManeQtzQRJ6oZ8k=
 sudo: false
 rvm:
 - 2.0.0
 services:
 - docker
 before_install:
-- openssl aes-256-cbc -K $encrypted_4ee0fe278edb_key -iv $encrypted_4ee0fe278edb_iv
-  -in escualo_rsa.enc -out escualo_rsa -d
 - docker pull mumuki/mumuki-plunit-worker
-after_success:
-- wget https://raw.githubusercontent.com/mumuki/mumuki-escualo-deploy/master/travis_deploy
-  && chmod u+x travis_deploy
-- ./travis_deploy plunit
