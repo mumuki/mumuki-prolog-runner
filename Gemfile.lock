@@ -28,6 +28,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     builder (3.2.2)
+    debase (0.2.1)
+      debase-ruby_core_source
+    debase-ruby_core_source (0.7.9)
     diff-lcs (1.2.5)
     docker-api (1.22.4)
       excon (>= 0.38.0)
@@ -112,6 +115,8 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
+    ruby-debug-ide (0.6.0)
+      rake (>= 0.8.1)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -129,11 +134,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  debase
   mumukit (~> 2.4)
   mumukit-bridge (~> 1.3)
   mumukit-inspection!
   rake
   rspec (= 2.13)
+  ruby-debug-ide
 
 BUNDLED WITH
    1.11.2

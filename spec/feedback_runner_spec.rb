@@ -1,23 +1,24 @@
 require_relative 'spec_helper'
 
 def req(content, test='test(foo) :- true.')
-  OpenStruct.new(content: content, test: test)
+  struct content: content, test: test
 end
 
 describe PrologFeedbackHook do
+
   before { I18n.locale = :es }
 
   let(:server) { PrologTestHook.new }
   let!(:test_results) { server.run!(server.compile(request)) }
-  let(:feedback) { PrologFeedbackHook.new.run!(request, OpenStruct.new(test_results:test_results)) }
+  let(:feedback) { PrologFeedbackHook.new.run!(request, OpenStruct.new(test_results: test_results)) }
+
 
   context 'when wrong distinct operator' do
     let(:request) { req('foo(X) :- X != 2') }
 
     it {
-      expect(feedback).to eq(
-                                 "* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito
-* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`") }
+      expect(feedback).to eq("* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`
+* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
   end
 
   context 'when missing final dot' do
@@ -32,18 +33,16 @@ describe PrologFeedbackHook do
     let(:request) { req('foo(X) :- X <= 2') }
 
     it {
-      expect(feedback).to eq(
-                              "* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito
-* Revisá esta parte: `...(X) :- X <= 2...`. Recordá que el predicado infijo menor o igual en prolog se escribe así: `=<`") }
+      expect(feedback).to eq("* Revisá esta parte: `...(X) :- X <= 2...`. Recordá que el predicado infijo menor o igual en prolog se escribe así: `=<`
+* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
   end
 
   context 'when wrong => operator' do
     let(:request) { req('foo(X) :- X => 2') }
 
     it {
-      expect(feedback).to eq(
-                              "* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito
-* Revisá esta parte: `...(X) :- X => 2...`. Recordá que el predicado infijo mayor o igual en prolog se escribe así: `>=`") }
+      expect(feedback).to eq("* Revisá esta parte: `...(X) :- X => 2...`. Recordá que el predicado infijo mayor o igual en prolog se escribe así: `>=`
+* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
   end
 
 

@@ -1,110 +1,95 @@
+class Mumukit::Explainer
+  def explain(content, test_results)
+    explain_methods
+        .map { |selector, key| eval_explain(selector, key, content, test_results) }
+        .compact
+        .map { |explain| I18n.t(explain[:key], explain[:binding]) }
+        .map { |it| "* #{it}" }
+        .join("\n")
+  end
+
+  def eval_explain(selector, key, content, test_results)
+    send(selector, content, test_results).try do |it|
+      {key: key, binding: it}
+    end
+  end
+
+  def explain_methods
+    self.class
+        .instance_methods(false)
+        .flat_map { |it| it.to_s.captures(/explain_(.*)/).map { [it, $1] } }
+        .compact
+  end
+end
+
 class PrologFeedbackHook < Mumukit::Hook
   def run!(request, results)
-    build_feedback request, results, [
-        :missing_predicate,
-        :operator_error,
-        :clauses_not_together,
-        :singleton_variables,
-        :missing_dot_error,
-        :wrong_distinct_operator,
-        :wrong_gte_operator,
-        :wrong_lte_operator,
-        :wrong_comma,
-        :not_sufficiently_instantiated,
-        :test_failed]
-  end
-
-  def build_feedback(request, results, checks)
     content = request.content
     test_results = results.test_results[0]
-    feedback = Feedback.new(content, test_results)
-    checks.each { |it| feedback.check(it, &c(it)) }
-    feedback.build
+
+    PrologExplainer.new.explain(content, test_results)
   end
 
-  def c(selector)
-    lambda { |content, test_results| self.send(selector, content, test_results) }
-  end
-
-  #FIXME may be extracted to mumukit
-  class Feedback
-    def initialize(content, test_results)
-      @content = content
-      @test_results = test_results
-      @suggestions = []
-    end
-
-    def check(key, &block)
-      binding = block.call(@content, @test_results)
-      if binding
-        @suggestions << I18n.t(key, binding)
+  class PrologExplainer < Mumukit::Explainer
+    def explain_wrong_distinct_operator(content, _)
+      (/.{0,9}(\/=|<>|!=).{0,9}/.match content).try do |it|
+        {near: it[0]}
       end
     end
 
-    def build
-      @suggestions.map { |it| "* #{it}" }.join("\n")
+    def explain_wrong_gte_operator(content, _)
+      (/.{0,9}(=>).{0,9}/.match content).try do |it|
+        {near: it[0]}
+      end
+    end
+
+    def explain_wrong_lte_operator(content, _)
+      (/.{0,9}(<=).{0,9}/.match content).try do |it|
+        {near: it[0]}
+      end
+    end
+
+
+    def explain_clauses_not_together(_, test_results)
+      (/Clauses of .*:(.*) are not together in the source-file/.match test_results).try do |it|
+        {target: it[1]}
+      end
+    end
+
+    def explain_singleton_variables(_, test_results)
+      (/Singleton variables: \[(.*)\]/.match test_results).try do |it|
+        {target: it[1]}
+      end
+    end
+
+    def explain_test_failed(_, test_results)
+      /test (.*): failed/ =~ test_results
+    end
+
+    def explain_not_sufficiently_instantiated(_, test_results)
+      (/received error: (.*): Arguments are not sufficiently instantiated/.match test_results).try do |it|
+        {target: it[1]}
+      end
+    end
+
+    def explain_operator_error(_, test_results)
+      /ERROR: (.*): Syntax error: Operator expected/ =~ test_results
+    end
+
+    def explain_missing_dot_error(_, test_results)
+      /ERROR: (.*): Syntax error: Operator priority clash/ =~ test_results
+    end
+
+
+    def explain_wrong_comma(_, test_results)
+      /ERROR: (.*): Full stop in clause-body\? Cannot redefine ,\/2/ =~ test_results
+    end
+
+    def explain_missing_predicate(_, test_results)
+      (/.*:(.*): Undefined procedure: .*:(.*)/.match test_results).try do |it|
+        {target: it[1],
+         missing: it[2]} unless it[1].include? 'unit body'
+      end
     end
   end
-
-  def wrong_distinct_operator(content, _)
-    (/.{0,9}(\/=|<>|!=).{0,9}/.match content).try do |it|
-      {near: it[0]}
-    end
-  end
-
-  def wrong_gte_operator(content, _)
-    (/.{0,9}(=>).{0,9}/.match content).try do |it|
-      {near: it[0]}
-    end
-  end
-
-  def wrong_lte_operator(content, _)
-    (/.{0,9}(<=).{0,9}/.match content).try do |it|
-      {near: it[0]}
-    end
-  end
-
-
-  def clauses_not_together(_, test_results)
-    (/Clauses of .*:(.*) are not together in the source-file/.match test_results).try do |it|
-      {target: it[1]}
-    end
-  end
-
-  def singleton_variables(_, test_results)
-    (/Singleton variables: \[(.*)\]/.match test_results).try do |it|
-      {target: it[1]}
-    end
-  end
-
-  def test_failed(_, test_results)
-    /test (.*): failed/ =~ test_results
-  end
-
-  def not_sufficiently_instantiated(_, test_results)
-    (/received error: (.*): Arguments are not sufficiently instantiated/.match test_results).try do |it|
-      {target: it[1]}
-    end
-  end
-
-  def operator_error(_, test_results)
-    /ERROR: (.*): Syntax error: Operator expected/ =~ test_results
-  end
-
-  def missing_dot_error(_, test_results)
-    /ERROR: (.*): Syntax error: Operator priority clash/ =~ test_results
-  end
-
-
-  def wrong_comma(_, test_results)
-    /ERROR: (.*): Full stop in clause-body\? Cannot redefine ,\/2/ =~ test_results
-  end
-
-  def missing_predicate(_, test_results)
-    (/.*:(.*): Undefined procedure: .*:(.*)/.match test_results).try do |it|
-      {target: it[1],
-       missing: it[2]} unless it[1].include? 'unit body'
-    end
-  end
-
 end
