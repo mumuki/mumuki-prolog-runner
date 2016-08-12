@@ -92,12 +92,24 @@ describe 'runner' do
 
 
   it 'escapes characters' do
-    response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
-                                 extra: '',
-                                 content: 'acontecimiento(x, y) :- x /= 7',
-                                 expectations: [{inspection: 'HasBinding', binding: 'foo'}])
+    response = bridge.run_tests!(
+        test: 'test(ok) :- foo(X), assertion(1 == X).',
+        extra: '',
+        content: 'acontecimiento(x, y) :- x /= 7',
+        expectations: [{inspection: 'HasBinding', binding: 'foo'}])
     expect(response[:result]).to include('Syntax error: Operator expected')
-    expect(response[:feedback]).to be_present
+    expect(response[:feedback]).to include ' It looks like your code has syntax errors'
+  end
+
+  it 'escapes characters' do
+    response = bridge.run_tests!(
+        locale: :es,
+        test: 'test(ok) :- foo(X), assertion(1 == X).',
+        extra: '',
+        content: 'acontecimiento(x, y) :- x /= 7',
+        expectations: [{inspection: 'HasBinding', binding: 'foo'}])
+    expect(response[:result]).to include('Syntax error: Operator expected')
+    expect(response[:feedback]).to include 'Cuidado, tenés errores de sintaxis'
   end
 
 

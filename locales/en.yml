@@ -1,3 +1,5 @@
 en:
   time_exceeded: 'Timeout: test aborted. Do you have an infinite recursion in your program?'
   wrong_distinct_operator: Remeber that the distinct operator in Prolog is \=
+  singleton_variables: "You are not using `%{target}` variable. Perhaps you want to use anonymous variable"
+  operator_error: "It looks like your code has syntax errors"
