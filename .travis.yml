@@ -9,3 +9,11 @@ services:
 - docker
 before_install:
 - docker pull mumuki/mumuki-plunit-worker
+deploy:
+  provider: rubygems
+  api_key:
+    secure: CiA4BQtwEatp6UKpozQemEWKXXTym43i0t3iIO0n9UORQ6lKNErPHpyW+XT3LosfFI2bXuYoBTcmDbw/4SYw4i/ystCxE0aBc0Lgqmq8fPFVnFh9p0bME/lobnmOKzyIrFSXFE+YMkr5YGUHjaoKH7TSnUXP4onAswCskN9/9u4=
+  gem: mumuki-prolog-runner
+  on:
+    tags: true
+    repo: mumuki/mumuki-prolog-runner
