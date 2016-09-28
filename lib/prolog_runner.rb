@@ -1,8 +1,6 @@
-require 'i18n'
-
-I18n.load_path += Dir[File.join('.', 'locales', '*.yml')]
-
 require 'mumukit'
+
+I18n.load_translations_path File.join(__dir__, 'locales', '*.yml')
 
 Mumukit.runner_name = 'prolog'
 Mumukit.configure do |config|
