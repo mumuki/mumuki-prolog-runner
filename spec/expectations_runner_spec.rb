@@ -76,4 +76,17 @@ describe PrologExpectationsHook do
         {expectation: expectations[0], result: true},
         {expectation: expectations[1], result: false}] }
   end
+
+  describe 'DeclaresFact' do
+    let(:code) { "foo(X, Y) :- m(X, Y).\nbar(X, Y)." }
+    let(:expectations) { [
+      {binding: '', inspection: 'DeclaresFact:foo'},
+      {binding: '', inspection: 'DeclaresFact:bar'},
+      {binding: '', inspection: 'DeclaresFact:baz'}] }
+
+    it { expect(result).to eq [
+        {expectation: expectations[0], result: false},
+        {expectation: expectations[1], result: true},
+        {expectation: expectations[2], result: false}] }
+  end
 end
