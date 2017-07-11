@@ -34,11 +34,11 @@ describe 'runner' do
     response = bridge.run_tests!(test: 'test(ok) :- foo(X), assertion(1 == X).',
                                  extra: 'foo(1).',
                                  content: '',
-                                 expectations: [{inspection: 'HasArity:2', binding: 'foo'}])
+                                 expectations: [{inspection: 'DeclaresComputationWithArity2:=foo', binding: ''}])
 
     expect(response).to eq(status: :passed_with_warnings,
                            result: "```\n.\n\n```",
-                           expectation_results: [binding: 'foo', inspection: 'HasArity:2', result: :failed],
+                           expectation_results: [binding: '', inspection: 'DeclaresComputationWithArity2:=foo', result: :failed],
                            test_results: [],
                            feedback: '',
                            response_type: :unstructured)
@@ -53,7 +53,7 @@ describe 'runner' do
         reject { |k, _v| k == :result }
 
     expect(response).to eq(status: :failed,
-                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
+                           expectation_results: [{inspection: 'Declares:=foo', binding: '', result: :passed}],
                            feedback: '',
                            test_results: [],
                            response_type: :unstructured)
@@ -69,7 +69,7 @@ describe 'runner' do
 
     expect(response).to eq(status: :aborted,
                            result: "```\nExecution time limit of 4s exceeded. Is your program performing an infinite loop or recursion?\n```",
-                           expectation_results: [{inspection: 'HasBinding', binding: 'foo', result: :passed}],
+                           expectation_results: [{inspection: 'Declares:=foo', binding: '', result: :passed}],
                            feedback: '',
                            test_results: [],
                            response_type: :unstructured)
