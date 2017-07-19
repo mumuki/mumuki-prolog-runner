@@ -2,41 +2,91 @@ require_relative 'spec_helper'
 
 describe PrologExpectationsHook do
   def req(expectations, content)
-    OpenStruct.new(expectations:expectations, content:content)
+    struct expectations: expectations, content: content
   end
 
-  let(:expectations) {
-    [{'binding' => 'foo', 'inspection' => 'HasBinding'}]
-  }
-  let(:expectations_with_not) {
-    [{'binding' => 'bar', 'inspection' => 'Not:HasBinding'}]
-  }
-  let(:expectations_with_usage) {
-    [{'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
-  }
-  let(:multiple_expectations) {
-    [{'binding' => 'foo', 'inspection' => 'Not:HasBinding'}, {'binding' => 'foo', 'inspection' => 'HasUsage:bar'}]
-  }
-
-  let(:runner) { PrologExpectationsHook.new }
-
-  def compile_and_run(runner, request)
+  def compile_and_run(request)
     runner.run!(runner.compile(request))
   end
 
-  it { expect(ExpectationsFile.expectations_to_terms(expectations)).to eq "[expectation('foo',inspection('HasBinding'))]" }
-  it { expect(ExpectationsFile.expectations_to_terms(expectations_with_not)).to eq "[expectation('bar',not(inspection('HasBinding')))]" }
-  it { expect(ExpectationsFile.expectations_to_terms(expectations_with_usage)).to eq "[expectation('foo',inspection('HasUsage','bar'))]" }
-  it { expect(ExpectationsFile.expectations_to_terms(multiple_expectations)).to eq "[expectation('foo',not(inspection('HasBinding'))),expectation('foo',inspection('HasUsage','bar'))]" }
+  let(:runner) { PrologExpectationsHook.new(mulang_path: './bin/mulang') }
+  let(:result) { compile_and_run(req(expectations, code)) }
 
-  it { expect(compile_and_run(runner, req(expectations, 'foo(2).'))).to eq(
-      [ { 'expectation' => expectations[0],'result' => true }]) }
+  describe 'UsesCut' do
+    let(:code) { "foo(X) :- !.\nbar(X)." }
+    let(:expectations) { [] }
 
-  it { expect(compile_and_run(runner, req(expectations, 'bar(2).'))).to eq(
-      [ { 'expectation' => expectations[0], 'result' => false }]) }
+    it { expect(result).to eq [{expectation: {binding: 'foo', inspection: 'UsesCut'}, result: false}] }
+  end
 
-  it { expect(compile_and_run(runner, req(multiple_expectations, 'bar(2).'))).to eq(
-      [ { 'expectation' => multiple_expectations[0], 'result' => true },
-        { 'expectation' => multiple_expectations[1], 'result' => false }]) }
+  describe 'HasRedundantReduction' do
+    let(:code) { "foo(X) :- X is 7." }
+    let(:expectations) { [] }
 
+    it { expect(result).to eq [{expectation: {binding: 'foo', inspection: 'HasRedundantReduction'}, result: false}] }
+  end
+
+  describe 'UsesUnificationOperator' do
+    let(:code) { "foo(X, Y) :- X = Y." }
+    let(:expectations) { [] }
+
+    it { expect(result).to eq [{expectation: {binding: 'foo', inspection: 'UsesUnificationOperator'}, result: false}] }
+  end
+
+  describe 'UsesForall' do
+    let(:code) { "foo(X, Y) :- m(X, Y).\nbar(X) :- forall(g(X), h(X))." }
+    let(:expectations) { [
+      {binding: 'foo', inspection: 'UsesForall'},
+      {binding: 'bar', inspection: 'UsesForall'}] }
+
+    it { expect(result).to eq [
+        {expectation: expectations[0], result: false},
+        {expectation: expectations[1], result: true}] }
+  end
+
+  describe 'UsesFindall' do
+    let(:code) { "foo(X, Y) :- m(X, Y).\nbar(X, Ms) :- findall(M, h(X), Ms)." }
+    let(:expectations) { [
+      {binding: 'foo', inspection: 'UsesFindall'},
+      {binding: 'bar', inspection: 'UsesFindall'}] }
+
+    it { expect(result).to eq [
+        {expectation: expectations[0], result: false},
+        {expectation: expectations[1], result: true}] }
+  end
+
+  describe 'Uses' do
+    let(:code) { "foo(X, Y) :- m(X, Y).\nbar(X, Ms) :- findall(M, h(X), Ms)." }
+    let(:expectations) { [
+      {binding: 'foo', inspection: 'Uses:m'},
+      {binding: 'bar', inspection: 'Uses:m'}] }
+
+    it { expect(result).to eq [
+        {expectation: expectations[0], result: true},
+        {expectation: expectations[1], result: false}] }
+  end
+
+  describe 'DeclaresPredicate' do
+    let(:code) { "foo(X, Y) :- m(X, Y)." }
+    let(:expectations) { [
+      {binding: '', inspection: 'DeclaresPredicate:foo'},
+      {binding: '', inspection: 'DeclaresPredicate:bar'}] }
+
+    it { expect(result).to eq [
+        {expectation: expectations[0], result: true},
+        {expectation: expectations[1], result: false}] }
+  end
+
+  describe 'DeclaresFact' do
+    let(:code) { "foo(X, Y) :- m(X, Y).\nbar(X, Y)." }
+    let(:expectations) { [
+      {binding: '', inspection: 'DeclaresFact:foo'},
+      {binding: '', inspection: 'DeclaresFact:bar'},
+      {binding: '', inspection: 'DeclaresFact:baz'}] }
+
+    it { expect(result).to eq [
+        {expectation: expectations[0], result: false},
+        {expectation: expectations[1], result: true},
+        {expectation: expectations[2], result: false}] }
+  end
 end
