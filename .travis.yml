@@ -6,7 +6,7 @@ rvm:
 services:
 - docker
 before_install:
-- docker pull mumuki/mumuki-plunit-worker
+- docker pull mumuki/mumuki-plunit-worker:2.0
 - wget https://github.com/mumuki/mulang/releases/download/v2.2.0/mulang
 - mv mulang bin/
 - chmod +x bin/mulang
