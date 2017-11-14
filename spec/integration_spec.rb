@@ -53,7 +53,7 @@ describe 'runner' do
         reject { |k, _v| k == :result }
 
     expect(response).to eq(status: :failed,
-                           expectation_results: [{inspection: 'Declares:=foo', binding: '', result: :passed}],
+                           expectation_results: [{inspection: 'Declares:=foo', binding: '*', result: :passed}],
                            feedback: '',
                            test_results: [],
                            response_type: :unstructured)
@@ -107,7 +107,7 @@ describe 'runner' do
 
       expect(response).to eq(status: :aborted,
                              result: "```\nExecution time limit of 4s exceeded. Is your program performing an infinite loop or recursion?\n```",
-                             expectation_results: [{inspection: 'Declares:=foo', binding: '', result: :passed}],
+                             expectation_results: [{inspection: 'Declares:=foo', binding: '*', result: :passed}],
                              feedback: '',
                              test_results: [],
                              response_type: :unstructured)
