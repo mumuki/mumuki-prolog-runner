@@ -10,7 +10,11 @@ class PrologMetadataHook < Mumukit::Hook
     },
      test_framework: {
          name: 'plunit',
-         test_extension: 'pl'
+         test_extension: 'pl',
+         template: <<prolog
+test(test_description_example):-
+	aPredicate(anIndividual).
+prolog
      }}
   end
 end

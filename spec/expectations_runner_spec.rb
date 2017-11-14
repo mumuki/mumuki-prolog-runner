@@ -69,8 +69,8 @@ describe PrologExpectationsHook do
   describe 'DeclaresPredicate' do
     let(:code) { "foo(X, Y) :- m(X, Y)." }
     let(:expectations) { [
-      {binding: '', inspection: 'DeclaresPredicate:foo'},
-      {binding: '', inspection: 'DeclaresPredicate:bar'}] }
+      {binding: '*', inspection: 'DeclaresPredicate:foo'},
+      {binding: '*', inspection: 'DeclaresPredicate:bar'}] }
 
     it { expect(result).to eq [
         {expectation: expectations[0], result: true},
@@ -80,9 +80,9 @@ describe PrologExpectationsHook do
   describe 'DeclaresFact' do
     let(:code) { "foo(X, Y) :- m(X, Y).\nbar(X, Y)." }
     let(:expectations) { [
-      {binding: '', inspection: 'DeclaresFact:foo'},
-      {binding: '', inspection: 'DeclaresFact:bar'},
-      {binding: '', inspection: 'DeclaresFact:baz'}] }
+      {binding: '*', inspection: 'DeclaresFact:foo'},
+      {binding: '*', inspection: 'DeclaresFact:bar'},
+      {binding: '*', inspection: 'DeclaresFact:baz'}] }
 
     it { expect(result).to eq [
         {expectation: expectations[0], result: false},
