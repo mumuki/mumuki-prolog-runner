@@ -9,7 +9,7 @@ describe PrologExpectationsHook do
     runner.run!(runner.compile(request))
   end
 
-  let(:runner) { PrologExpectationsHook.new(mulang_path: './bin/mulang') }
+  let(:runner) { PrologExpectationsHook.new }
   let(:result) { compile_and_run(req(expectations, code)) }
 
   describe 'UsesCut' do
