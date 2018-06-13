@@ -4,4 +4,8 @@ class PrologExpectationsHook < Mumukit::Templates::MulangExpectationsHook
   def language
     'Prolog'
   end
+
+  def compile_content(content)
+    content.strip
+  end
 end

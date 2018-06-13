@@ -75,6 +75,16 @@ describe 'runner' do
   end
 
 
+  it 'doesnt fail when submission starts with a newline character' do
+    response = bridge.
+        run_tests!(test: "test(frodo_es_personaje_de_ficcion):- personajeDeFiccion(frodo).",
+                   expectations: [{inspection: 'HasBinding', binding: 'personajeDeFiccion'}],
+                   extra: '',
+                   content: "\npersonajeDeFiccion(frodo).")
+
+    expect(response[:status]).to eq(:passed)
+  end
+
   it 'escapes characters' do
     response = bridge.run_tests!(
         test: 'test(ok) :- foo(X), assertion(1 == X).',
