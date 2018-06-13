@@ -23,7 +23,7 @@ class PrologTestHook < Mumukit::Templates::FileHook
     <<EOF
 :- begin_tests(mumuki_submission_test, []).
 #{request.test}
-#{request.content}
+#{request.content.strip}
 #{request.extra}
 :- end_tests(mumuki_submission_test).
 EOF
