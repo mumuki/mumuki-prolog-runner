@@ -3,7 +3,7 @@ name: Test and deploy
 on: push
 
 jobs:
-  test_and_deploy:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -13,6 +13,8 @@ jobs:
         ruby-version: 2.6.3
     - name: Install dependencies
       run: bundle install
+    - name: Pull worker
+      run: docker pull mumuki/mumuki-plunit-worker:2.0
     - name: Run tests
       run: bundle exec rake
     - name: Deploy
