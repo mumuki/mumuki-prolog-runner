@@ -16,7 +16,7 @@ jobs:
         bundler: 2.1.4
         bundler-cache: true
     - name: Pull worker
-      run: bin/pull_worker.sh
+      run: bundle exec rake pull_worker
     - name: Run tests
       run: bundle exec rake
     - name: Deploy
