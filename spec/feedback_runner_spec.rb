@@ -11,14 +11,14 @@ describe PrologFeedbackHook do
   let(:server) { PrologTestHook.new }
   let!(:test_results) { server.run!(server.compile(request)) }
   let(:feedback) { PrologFeedbackHook.new.run!(request, OpenStruct.new(test_results: test_results)) }
-
+  let(:feedback_arr) { feedback.split("\n").sort }
 
   context 'when wrong distinct operator' do
     let(:request) { req('foo(X) :- X != 2') }
 
     it {
-      expect(feedback).to eq("* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`
-* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
+      expect(feedback_arr).to eq(['* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito',
+                                  '* Revisá esta parte: `...(X) :- X != 2...`. Recordá que el predicado infijo distinto en prolog se escribe así: `\\=`']) }
   end
 
   context 'when missing final dot' do
@@ -33,16 +33,16 @@ describe PrologFeedbackHook do
     let(:request) { req('foo(X) :- X <= 2') }
 
     it {
-      expect(feedback).to eq("* Revisá esta parte: `...(X) :- X <= 2...`. Recordá que el predicado infijo menor o igual en prolog se escribe así: `=<`
-* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
+      expect(feedback_arr).to eq(['* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito',
+                              '* Revisá esta parte: `...(X) :- X <= 2...`. Recordá que el predicado infijo menor o igual en prolog se escribe así: `=<`']) }
   end
 
   context 'when wrong => operator' do
     let(:request) { req('foo(X) :- X => 2') }
 
     it {
-      expect(feedback).to eq("* Revisá esta parte: `...(X) :- X => 2...`. Recordá que el predicado infijo mayor o igual en prolog se escribe así: `>=`
-* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito") }
+      expect(feedback_arr).to eq(['* Cuidado, tenés errores de sintaxis. Revisá que el código esté bien escrito',
+                                  '* Revisá esta parte: `...(X) :- X => 2...`. Recordá que el predicado infijo mayor o igual en prolog se escribe así: `>=`']) }
   end
 
 
